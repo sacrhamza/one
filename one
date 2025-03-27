@@ -1,0 +1,504 @@
+#!/bin/bash
+
+declare -A APP_URL
+declare -A EXEC_FILE
+declare -A DESCRIPTION
+
+#required files
+#to just work fine
+#check if any of these files is even exist
+. ~/.local/bin/database.sh
+. ~/.local/bin/utilities.sh
+. ~/.local/bin/size.sh
+. ~/.local/bin/setup.sh
+
+#list of packages 
+not_graghical_packages=(image-magick go)
+
+TRUE=1
+FALSE=0
+
+RED="\e[31m"
+GREEN="\e[32m"
+BLUE="\e[36m"
+RESET="\e[00m"
+RED_BOLD="\e[31;01m"
+GREEN_BOLD="\e[32;01m"
+BLUE_BOLD="\e[36;01m"
+PURPLE="\e[34m"
+
+CWD="${HOME}/.local"
+
+TEMP_DIR="/tmp"
+
+DESKTOP_FILE_DIR="${HOME}/.local/share/applications"
+
+ICON_DIR="${HOME}/.local/share/icons"
+
+BIN_DIR="${HOME}/.local/bin"
+
+get_icon()
+{
+	local icon_files=$(find . \( -name '*.png' -o -name '*.svg' \) )
+
+	local icon_list=$(for i in ${icon_files}
+	do
+		if [[ -f $i ]]
+		then
+			echo $i
+		fi
+	done)
+	icon_file=($(echo "${icon_list}" | grep "$1.png\$" ||  echo "${icon_list}" | grep 512 || echo "${icon_list}" | grep 256 || echo "${icon_list}" | grep 128 || echo "${icon_list}" | grep "$1.svg\$" || echo "${icon_list}"))
+
+	echo "${icon_file}"
+}
+
+create_desktop_file()
+{
+	if [[ ! -d "${ICON_DIR}" ]]
+	then
+		mkdir "${ICON_DIR}"  
+	fi
+	local desktop_file="${DESKTOP_FILE_DIR}/$1.desktop"
+	local icons="$(find ${CWD}/$1/ -name '*.png')"
+	touch "${desktop_file}"
+	cd "${CWD}/$1/"
+	local variable=$(echo $1 | tr '-' ' ' | awk '{printf $NF}')
+	local icon_file=$(get_icon "$variable")
+	cp "${icon_file}" "${ICON_DIR}/$1.png"
+	cd -
+
+	printf "[Desktop Entry]
+Name=$1
+Comment=$1
+Exec=${CWD}/${1}/${EXEC_FILE[$1]}
+Terminal=false
+Icon=${ICON_DIR}/$1.png
+Type=Application" > "${desktop_file}"
+	chmod +x "${desktop_file}"
+}
+
+download_package()
+{
+	local app_name="$1"
+	mkdir "${CWD}/TMP"
+	local format
+	local place="${TEMP_DIR}/${app_name}"
+	wget -O "${TEMP_DIR}/${app_name}" ${APP_URL[$1]}
+	if [[ -n $(file "${place}" | grep Debian) ]]
+	then
+		format='deb'
+	elif [[ -n $(file "${place}" | grep XZ) ]]
+	then
+		format='tar.xz'
+	elif [[ -n $(file "${place}" | grep bzip2) ]]
+	then
+		format='tar.bz2'
+	elif [[ -n $(file "${place}" | grep gzip) ]]
+	then
+		format='gzip'
+	elif [[ -n $(file "${place}" | grep Zip) ]]
+	then
+		format='zip'
+	elif [[ -n $(file "${place}" | grep ELF) ]]
+	then
+		format='elf'
+	else
+		rm -rf "${place}"
+		rm -rf "${CWD}/TMP"
+		printf "${RED}unknown format $(file ${place})\n"
+		exit 1
+	fi
+	mv "${TEMP_DIR}/${1}" "${TEMP_DIR}/${1}.${format}"	
+	case $format in
+		'deb')
+			dpkg -x "${TEMP_DIR}/${app_name}.deb" "${CWD}/TMP/${app_name}"
+			;;
+		'tar.xz' | 'tar.bz2' | 'gzip')
+			tar -xf "${TEMP_DIR}/${app_name}.${format}" --directory="$CWD/TMP"
+;;
+		'zip')
+			unzip "${TEMP_DIR}/${app_name}.zip" -d "${CWD}/TMP"
+			;;
+		'elf')
+			chmod +x "${TEMP_DIR}/${app_name}.elf"  
+			cd ${TEMP_DIR} && ${TEMP_DIR}/${app_name}.elf --appimage-extract && cd -
+			mv "${TEMP_DIR}/squashfs-root" "${CWD}/TMP/${app_name}"
+			;;
+		*);;
+	esac
+	mv "${CWD}"/TMP/* "${CWD}/${app_name}"
+	rm -r "${CWD}/TMP/"
+	rm -rf "${TEMP_DIR}/${app_name}.${format}"
+	if [[ ! -d "${BIN_DIR}" ]]
+	then
+		mkdir "${BIN_DIR}"
+	fi
+	ln -s "${CWD}/$1/${EXEC_FILE[$1]}" "${BIN_DIR}/${1}"
+	local i
+	for i in "${not_graghical_packages[@]}"
+	do
+		if [[ ${1} == $i ]]
+		then
+			return
+		fi
+	done
+	create_desktop_file $1
+}
+
+
+delete_package()
+{	
+	if [[ ! -d "${CWD}/${1}" ]]
+	then
+		printf "\n${RED}${1} is not installed\n${RESET}but you can install it using: ${GREEN}one -i ${1}${RESET}\n"
+		return 0
+	fi
+	if [[ -z $2 ]]
+	then
+		read -p "are you sure you want to remove $1 [y/n]: " answer
+	else
+		answer=yes
+	fi
+	if [[ "${answer,,}" == @(yes|y) ]]
+	then
+		remove_file "${BIN_DIR}/$1"
+		remove_dir "${CWD}/$1"
+		remove_dir "${HOME}/.config/$1"
+		remove_dir "${HOME}/.cache/$1"
+		remove_dir "${HOME}/.${1}"
+		remove_file "${DESKTOP_FILE_DIR}/$1.desktop"
+		remove_file "${ICON_DIR}/$1.png"
+		zenity --notification --window-icon="info" --text="$i is removed" --title="one"
+	fi
+}
+
+check_package()
+{
+	if [[ -n "${APP_URL[$1]}" ]]
+	then
+		echo $TRUE
+	else
+		echo $FALSE
+	fi 
+}
+
+
+display_help_message()
+{
+	printf "${BLUE}oneaperson package tool:${RESET}  ${GREEN}one [OPTION] [PACKAGE?]
+\t${RESET}${GREEN}init, --init, -I${RESET}\tinstall oneperson package tool locally
+\t${RESET}${GREEN}install, --install, -i${RESET}\tinstall a package
+\t${GREEN}remove, --remove, -r${RESET}\tremove a package
+\t${GREEN}search, --search, -s${RESET}\tsearch for a package
+\t${GREEN}list, --list, -l${RESET}\tlist the installed packages
+\t${GREEN}all, --all, -a${RESET}\t\tlist all available packages to install
+\t${GREEN}version, --version, -v${RESET}\tdisplay oneperson package tool version
+\t${GREEN}help, --help, -h${RESET}\tdisplay this help message
+\t${GREEN}graphic, --graphic, -G${RESET}\tuse zenity to install/remove packages
+"
+}
+
+#this function is used to display an error message because an option is not valid
+display_error_message()
+{
+	local NOT_VALID_OPTION=1
+	local option="${1}"
+	printf "${RED_BOLD}error: ${RESET} ${BLUE_BOLD}${option}${RESET} ${RED}is not a valid option${RESET}\n"
+	display_help_message
+	exit $NOT_VALID_OPTION
+}
+
+#this function is used to return the action the i will use in the program to determine the valid options(install / remove)
+return_action()
+{
+	local option="${1}"
+	case "${option}" in
+		install | '--install' | '-i')
+			echo download
+		;;
+		remove | '--remove' | '-r')
+			echo delete
+		;;
+		search | '--search' | '-s')
+			echo search
+		;;
+		*)
+		;;
+	esac
+	
+}
+
+ERROR=1
+
+#this is all valid arguments that oneperson package tool can get from the user
+declare -a valid_arguments
+valid_arguments[0]='install --install -i --remove -r remove search --search -s'
+valid_arguments[1]='list --list -l --help -h help -G --graphical graphical --all all -a init --init -I --version -v version'
+
+#this function checks if a string is in the first or second list of valid arguments and return which one (1 / 2)
+check_valid_arguments()
+{
+	local i
+	for i in ${valid_arguments[$1]}
+	do
+		if [[ $2 == $i ]]
+		then
+			echo 1
+		fi	
+	done
+}
+
+
+zenity_app()
+{
+		declare -a installed_app removed_app
+		declare -i remove_count=0 install_count=0
+		count=0
+		for i in ${!APP_URL[@]}
+		do
+			if [[ -d "${CWD}/$i" ]]
+			then
+				installed_app[${install_count}]="FALSE $i REMOVE"
+				((install_count++))
+			else
+				removed_app[${remove_count}]="FALSE $i INSTALL"
+				((remove_count++))
+			fi
+		done
+		option=$(zenity --window-icon=${ICON_DIR}/oneperson.png --title="one" --width=750 --height=500 --list\
+		--checklist \
+		--column "Checkbox"  \
+		--column "app" \
+		--column "INSTALLED/REMOVED" ${installed_app[@]} ${removed_app[@]})
+		if [[ -z "${option}" ]]
+		then
+			zenity --warning --text="you should choose an app"
+			exit 1
+		fi
+		apps=($(echo ${option} | tr '|' ' '))
+		for i in ${apps[@]}
+		do
+			handle_action $i
+		done
+}
+
+handle_action()
+{
+	if [[ -d "${CWD}/$1" ]]
+	then
+		delete_package $1 -y
+	else
+		download_package $1
+	fi
+}
+
+
+
+setup()
+{
+	local variable
+	create_if_not_found "${BIN_DIR}"
+	create_if_not_found "${ICON_DIR}"
+	if [[ ! -e "${BIN_DIR}/one" ]]
+	then
+		variable=1
+		mv "$1" "${BIN_DIR}/one"
+		chmod +x "${BIN_DIR}/one"
+	fi
+	let variable+=$(handle_path)
+	let variable+=$(create_man_page)
+	let variable+=$(create_oneperson_desktop_file)
+	if [[ $variable -eq 0 ]]
+	then
+		printf "\n${GREEN}everything up to date${RESET}\n"
+	fi
+}
+
+get_version()
+{
+	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.0${RESET}\n"
+}
+
+take_action()
+{
+	local action="${1}"
+	if [[ "$action" == 'all' ]]
+		then
+			for i in ${!APP_URL[@]}
+			do
+				printf "$i\n"
+			done
+		elif [[ "${action}" == 'list' ]]
+		then
+			printf "${GREEN}"
+			for i in $(ls "${CWD}/")
+			do
+				if [[ -n "${APP_URL[${i}]}" && -d "${CWD}/${i}" ]]
+				then
+					printf "${GREEN_BOLD}${i^}${RESET}:\n\t${DESCRIPTION[$i]}\n"
+				fi
+			done
+			printf "${RESET}"
+		elif [[ "${action}" == 'graphic' ]]
+		then
+			zenity_app
+		elif [[ "${action}" == 'init' ]]
+		then
+			setup $2
+			exit 0
+		elif [[ "${action}" == 'version' ]]
+		then
+			get_version
+			exit 0
+		else
+			display_help_message
+		fi
+}
+
+
+#this function is used to return one of these actions (list all help) if one of these is got (install[] remove[]) it will display the help message
+return_friendly_action()
+{
+	local option="${1}"
+	if [[ $(check_valid_arguments 0 ${option}) ]]
+	then
+		printf "${RED}error:${RESET} the option $i is used witout any package name\n"
+		display_help_message
+		return $ERROR
+	fi
+	case "${option}" in
+		list | '--list' | '-l')
+			echo list
+		;;
+		all | '--all' | '-a')
+			echo all
+		;;
+		graphic | '--graphic' | '-G')
+			echo graphic
+		;;
+		init | '--init' | '-I')
+			echo init
+		;;
+		version | '--version' | '-v')
+			echo version
+		;;
+		help | '--help' | '-h')
+			display_help_message
+			return 2
+		;;
+		*)
+		;;
+	esac
+	return 0
+}
+
+#command line argments
+package_arguments=($@)
+declare -a valid_packages
+
+declare -i counter=0
+for package in ${package_arguments[@]}
+do
+	if [[ $counter -eq 0 ]]
+	then
+		if [[ $# -gt 1 ]]
+		then
+			if [[ $(check_valid_arguments 1 ${package}) ]]
+			then
+				printf "${RED}error: ${BLUE} option ${package}${RESET} is used with a package_name?\n"
+				display_help_message
+				exit $ERROR
+			fi
+			action=$(return_action "${package}")
+			if [[ -z $action ]]
+			then
+				display_error_message "${package}"
+			fi	
+		else
+			action=$(return_friendly_action "${package}")
+			if [[ $? -eq $ERROR ]]
+			then
+				printf "${RED}error: ${BLUE}${package}${RESET} is used witout package name\n"
+				display_help_message
+				exit $ERROR
+			elif [[ $? -eq 2 ]]
+			then
+				exit 0
+			fi
+			if [[ -z $action ]]
+			then
+				printf "${RED}error: ${RESET}${BLUE}${package}${RESET} no such option\n"
+				display_help_message
+				exit $ERROR
+			fi
+			if [[ "$action" == init ]]
+			then
+				take_action $action $0
+			fi
+			take_action "$action"
+		fi
+		((counter++))
+		continue
+	fi
+	((counter++))
+	if [[ $(check_package "${package,,}") -eq 0 && $action != search ]]
+	then
+		printf "${RED_BOLD}error:${RESET} ${BLUE_BOLD}${package}${RESET}${RED} is not found\n${RESET}"	
+		exit $ERROR
+	else
+		valid_packages[$counter - 1]="${package,,}"
+	fi
+done
+
+#if the counter is 0 that means that there is any command line argument so this will display help message
+if [[ $counter -eq 0 ]]
+then
+	display_help_message
+	exit 0
+fi
+
+search_package()
+{
+	local app
+	local len
+	local arg_len=0
+	for app in  ${!APP_URL[@]}
+	do
+		len=$(printf "$1" | wc -c)
+		if [[ ${app:0:${len}} == $1 ]]
+		then
+			let arg_len+=1
+			printf "${GREEN_BOLD}${app^}${RESET}:\n\t${DESCRIPTION[$app]}\n"
+		fi
+	done
+	if [[ $arg_len -eq 0 ]]
+	then
+		printf "${RED_BOLD}${1^}${RESET}:\n\tno such program\n"
+	fi
+}
+
+#iterate valid packages and installing them
+for i in ${valid_packages[@]}
+do
+	if [[ "$action" == 'download' ]]
+	then
+		if [[ -d "${CWD}/${i}" ]]
+		then
+			printf "\n${BLUE}$i ${RED}is installed\n${RESET}\n"
+		elif enough_storage ${APP_URL[$i]} $i;
+		then
+			download_package "$i"	
+			zenity --notification --window-icon="info" --text="$i is installed" --title="one"
+		else
+			exit 1
+		fi
+
+	elif [[ "$action" == 'delete' ]]
+	then
+		delete_package "$i"
+	elif [[ "$action" == 'search' ]]
+	then
+		search_package "$i"
+	fi
+done
