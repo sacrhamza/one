@@ -55,6 +55,7 @@ APP_URL["bitwarden"]='https://vault.bitwarden.com/download/?app=desktop&platform
 APP_URL["simplenote"]='https://github.com/Automattic/simplenote-electron/releases/download/v2.23.0/Simplenote-linux-2.23.0-amd64.deb'
 APP_URL["krita"]='https://download.kde.org/stable/krita/5.2.9/krita-5.2.9-x86_64.AppImage'
 APP_URL["shotcut"]='https://altushost-swe.dl.sourceforge.net/project/shotcut/v25.01.25/shotcut-linux-x86_64-250125.txz?viasf=1'
+APP_URL["bat"]='https://github.com/sharkdp/bat/releases/download/v0.25.0/bat-musl_0.25.0_musl-linux-amd64.deb'
 
 #EXEC FILES OF ONE PACKAGES
 EXEC_FILE["brave"]="opt/brave.com/brave/brave"
@@ -112,6 +113,7 @@ EXEC_FILE["simplenote"]='opt/Simplenote/simplenote'
 EXEC_FILE["krita"]='AppRun'
 EXEC_FILE["shotcut"]='Shotcut.app/shotcut'
 EXEC_FILE["ghostty"]='usr/bin/ghostty'
+EXEC_FILE["bat"]='usr/bin/bat'
 
 #DESCRIPTION OF ONE PACKAGES
 DESCRIPTION["floorp"]='A privacy-focused web browser, built on Firefox, with additional security features.'
@@ -163,3 +165,4 @@ DESCRIPTION["theia"]='A modern and open IDE for cloud and desktop. The Theia IDE
 DESCRIPTION["goland"]=''
 DESCRIPTION["simplenote"]=''
 DESCRIPTION["krita"]=''
+DESCRIPTION["bat"]=''

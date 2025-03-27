@@ -102,3 +102,23 @@ Type=Application
 	fi
 	echo 0;
 }
+
+setup()
+{
+	local variable
+	create_if_not_found "${BIN_DIR}"
+	create_if_not_found "${ICON_DIR}"
+	if [[ ! -e "${BIN_DIR}/one" ]]
+	then
+		variable=1
+		mv "$1" "${BIN_DIR}/one"
+		chmod +x "${BIN_DIR}/one"
+	fi
+	let variable+=$(handle_path)
+	let variable+=$(create_man_page)
+	let variable+=$(create_oneperson_desktop_file)
+	if [[ $variable -eq 0 ]]
+	then
+		printf "\n${GREEN}everything up to date${RESET}\n"
+	fi
+}
