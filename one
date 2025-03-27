@@ -11,6 +11,7 @@ declare -A DESCRIPTION
 . ~/.local/bin/utilities.sh
 . ~/.local/bin/size.sh
 . ~/.local/bin/setup.sh
+. ~/.local/bin/zenity_app.sh
 
 #list of packages 
 not_graghical_packages=(image-magick go)
@@ -204,6 +205,7 @@ display_error_message()
 {
 	local NOT_VALID_OPTION=1
 	local option="${1}"
+
 	printf "${RED_BOLD}error: ${RESET} ${BLUE_BOLD}${option}${RESET} ${RED}is not a valid option${RESET}\n"
 	display_help_message
 	exit $NOT_VALID_OPTION
@@ -213,6 +215,7 @@ display_error_message()
 return_action()
 {
 	local option="${1}"
+
 	case "${option}" in
 		install | '--install' | '-i')
 			echo download
@@ -240,6 +243,7 @@ valid_arguments[1]='list --list -l --help -h help -G --graphical graphical --all
 check_valid_arguments()
 {
 	local i
+
 	for i in ${valid_arguments[$1]}
 	do
 		if [[ $2 == $i ]]
@@ -250,38 +254,6 @@ check_valid_arguments()
 }
 
 
-zenity_app()
-{
-		declare -a installed_app removed_app
-		declare -i remove_count=0 install_count=0
-		count=0
-		for i in ${!APP_URL[@]}
-		do
-			if [[ -d "${CWD}/$i" ]]
-			then
-				installed_app[${install_count}]="FALSE $i REMOVE"
-				((install_count++))
-			else
-				removed_app[${remove_count}]="FALSE $i INSTALL"
-				((remove_count++))
-			fi
-		done
-		option=$(zenity --window-icon=${ICON_DIR}/oneperson.png --title="one" --width=750 --height=500 --list\
-		--checklist \
-		--column "Checkbox"  \
-		--column "app" \
-		--column "INSTALLED/REMOVED" ${installed_app[@]} ${removed_app[@]})
-		if [[ -z "${option}" ]]
-		then
-			zenity --warning --text="you should choose an app"
-			exit 1
-		fi
-		apps=($(echo ${option} | tr '|' ' '))
-		for i in ${apps[@]}
-		do
-			handle_action $i
-		done
-}
 
 handle_action()
 {
@@ -293,28 +265,6 @@ handle_action()
 	fi
 }
 
-
-
-setup()
-{
-	local variable
-	create_if_not_found "${BIN_DIR}"
-	create_if_not_found "${ICON_DIR}"
-	if [[ ! -e "${BIN_DIR}/one" ]]
-	then
-		variable=1
-		mv "$1" "${BIN_DIR}/one"
-		chmod +x "${BIN_DIR}/one"
-	fi
-	let variable+=$(handle_path)
-	let variable+=$(create_man_page)
-	let variable+=$(create_oneperson_desktop_file)
-	if [[ $variable -eq 0 ]]
-	then
-		printf "\n${GREEN}everything up to date${RESET}\n"
-	fi
-}
-
 get_version()
 {
 	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.0${RESET}\n"
@@ -323,6 +273,7 @@ get_version()
 take_action()
 {
 	local action="${1}"
+
 	if [[ "$action" == 'all' ]]
 		then
 			for i in ${!APP_URL[@]}
@@ -361,6 +312,7 @@ take_action()
 return_friendly_action()
 {
 	local option="${1}"
+
 	if [[ $(check_valid_arguments 0 ${option}) ]]
 	then
 		printf "${RED}error:${RESET} the option $i is used witout any package name\n"
@@ -398,6 +350,7 @@ package_arguments=($@)
 declare -a valid_packages
 
 declare -i counter=0
+
 for package in ${package_arguments[@]}
 do
 	if [[ $counter -eq 0 ]]
