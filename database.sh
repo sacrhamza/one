@@ -10,7 +10,7 @@ APP_URL["edge"]="https://go.microsoft.com/fwlink?linkid=2149051&brand=M102"
 APP_URL["vivaldi"]="https://downloads.vivaldi.com/stable/vivaldi-stable_7.0.3495.29-1_amd64.deb"
 APP_URL["codium"]='https://github.com/VSCodium/vscodium/releases/download/1.96.4.25017/codium_1.96.4.25017_amd64.deb'
 APP_URL["atom"]='https://github.com/atom/atom/releases/download/v1.60.0/atom-amd64.deb'
-APP_URL["discord"]='https://stable.dl2.discordapp.net/apps/linux/0.0.87/discord-0.0.87.deb'
+APP_URL["discord"]='https://stable.dl2.discordapp.net/apps/linux/0.0.89/discord-0.0.89.deb'
 APP_URL["telegram"]='https://telegram.org/dl/desktop/linux'
 APP_URL["pycharm"]='https://download.jetbrains.com/python/pycharm-professional-2024.3.1.1-aarch64.tar.gz'
 APP_URL["midori"]='https://github.com/goastian/midori-desktop/releases/download/v11.5/midori_11.5_amd64.deb'
@@ -56,6 +56,8 @@ APP_URL["simplenote"]='https://github.com/Automattic/simplenote-electron/release
 APP_URL["krita"]='https://download.kde.org/stable/krita/5.2.9/krita-5.2.9-x86_64.AppImage'
 APP_URL["shotcut"]='https://altushost-swe.dl.sourceforge.net/project/shotcut/v25.01.25/shotcut-linux-x86_64-250125.txz?viasf=1'
 APP_URL["bat"]='https://github.com/sharkdp/bat/releases/download/v0.25.0/bat-musl_0.25.0_musl-linux-amd64.deb'
+APP_URL["stay_free"]='https://github.com/stayfree-app/desktop-releases/releases/latest/download/stayfree-linux-amd64.deb'
+APP_URL["icecat"]='https://icecatbrowser.org/assets/icecat/115.22.0/icecat_115.22.0esr-1_amd64.deb'
 
 #EXEC FILES OF ONE PACKAGES
 EXEC_FILE["brave"]="opt/brave.com/brave/brave"
@@ -114,6 +116,8 @@ EXEC_FILE["krita"]='AppRun'
 EXEC_FILE["shotcut"]='Shotcut.app/shotcut'
 EXEC_FILE["ghostty"]='usr/bin/ghostty'
 EXEC_FILE["bat"]='usr/bin/bat'
+EXEC_FILE["stay_free"]='opt/StayFree/stayfree-desktop'
+EXEC_FILE["icecat"]='usr/local/lib/icecat/icecat'
 
 #DESCRIPTION OF ONE PACKAGES
 DESCRIPTION["floorp"]='A privacy-focused web browser, built on Firefox, with additional security features.'
@@ -166,3 +170,6 @@ DESCRIPTION["goland"]=''
 DESCRIPTION["simplenote"]=''
 DESCRIPTION["krita"]=''
 DESCRIPTION["bat"]=''
+DESCRIPTION["ghostty"]='Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.'
+DESCRIPTION["stay_free"]='StayFree is your one-stop-shop for freeing up your valuable time and blocking apps and websites that you find distracting or want to avoid.'
+DESCRIPTION["icecat"]='GNU IceCat is the GNU version of the Firefox browser. Its main advantage is an ethical one: it is entirely free software.'
