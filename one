@@ -452,6 +452,7 @@ do
 		delete_package "$i"
 	elif [[ "$action" == 'search' ]]
 	then
+		#hey
 		search_package "$i"
 	fi
 done
