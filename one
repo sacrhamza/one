@@ -346,12 +346,12 @@ return_friendly_action()
 }
 
 #command line argments
-package_arguments=($@)
+package_arguments=("$@")
 declare -a valid_packages
 
 declare -i counter=0
 
-for package in ${package_arguments[@]}
+for package in "${package_arguments[@]}"
 do
 	if [[ $counter -eq 0 ]]
 	then
