@@ -5,24 +5,24 @@ APP_URL["firefox"]="https://download-installer.cdn.mozilla.net/pub/firefox/relea
 APP_URL["google-chrome"]="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 APP_URL["chromium"]="https://download-chromium.appspot.com/dl/Linux_x64?type=snapshots"
 APP_URL["tor"]="https://dist.torproject.org/torbrowser/14.0.7/tor-browser-linux-x86_64-14.0.7.tar.xz"
-APP_URL["opera"]="https://download.opera.com/download/get/?partner=www&opsys=Linux"
+APP_URL["opera"]="https://download5.operacdn.com/ftp/pub/opera/desktop/117.0.5408.197/linux/opera-stable_117.0.5408.197_amd64.deb"
 APP_URL["edge"]="https://go.microsoft.com/fwlink?linkid=2149051&brand=M102"
 APP_URL["vivaldi"]="https://downloads.vivaldi.com/stable/vivaldi-stable_7.0.3495.29-1_amd64.deb"
-APP_URL["codium"]='https://github.com/VSCodium/vscodium/releases/download/1.96.4.25017/codium_1.96.4.25017_amd64.deb'
-APP_URL["atom"]='https://github.com/atom/atom/releases/download/v1.60.0/atom-amd64.deb'
-APP_URL["discord"]='https://stable.dl2.discordapp.net/apps/linux/0.0.90/discord-0.0.90.deb'
-APP_URL["telegram"]='https://telegram.org/dl/desktop/linux'
-APP_URL["pycharm"]='https://download.jetbrains.com/python/pycharm-professional-2024.3.1.1-aarch64.tar.gz'
-APP_URL["midori"]='https://github.com/goastian/midori-desktop/releases/download/v11.5/midori_11.5_amd64.deb'
-APP_URL["waterfox"]='https://cdn1.waterfox.net/waterfox/releases/latest/linux'
-APP_URL["seamonkey"]='https://archive.seamonkey-project.org/releases/2.53.20/linux-x86_64/en-US/seamonkey-2.53.20.en-US.linux-x86_64.tar.bz2'
-APP_URL["code"]='https://vscode.download.prss.microsoft.com/dbazure/download/stable/cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba/code_1.96.4-1736991114_amd64.deb'
-APP_URL["opera"]='https://download3.operacdn.com/ftp/pub/opera/desktop/116.0.5366.51/linux/opera-stable_116.0.5366.51_amd64.deb'
-APP_URL["postman"]='https://dl.pstmn.io/download/latest/linux_64?deviceId=9b3d6765-b77f-4680-967c-40f706325bf8'
-APP_URL["sublime"]='https://download.sublimetext.com/sublime-text_build-4192_amd64.deb'
-APP_URL["blender"]='https://ftp.nluug.nl/pub/graphics/blender/release/Blender4.3/blender-4.3.2-linux-x64.tar.xz'
-APP_URL["slack"]='https://downloads.slack-edge.com/desktop-releases/linux/x64/4.41.105/slack-desktop-4.41.105-amd64.deb'
-APP_URL["zed"]='https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz'
+app_url["codium"]='https://github.com/VSCodium/vscodium/releases/download/1.96.4.25017/codium_1.96.4.25017_amd64.deb'
+app_url["atom"]='https://github.com/atom/atom/releases/download/v1.60.0/atom-amd64.deb'
+app_url["discord"]='https://stable.dl2.discordapp.net/apps/linux/0.0.90/discord-0.0.90.deb'
+app_url["telegram"]='https://telegram.org/dl/desktop/linux'
+app_url["pycharm"]='https://download.jetbrains.com/python/pycharm-professional-2024.3.1.1-aarch64.tar.gz'
+app_url["midori"]='https://github.com/goastian/midori-desktop/releases/download/v11.5/midori_11.5_amd64.deb'
+app_url["waterfox"]='https://cdn1.waterfox.net/waterfox/releases/latest/linux'
+app_url["seamonkey"]='https://archive.seamonkey-project.org/releases/2.53.20/linux-x86_64/en-US/seamonkey-2.53.20.en-US.linux-x86_64.tar.bz2'
+app_url["code"]='https://vscode.download.prss.microsoft.com/dbazure/download/stable/cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba/code_1.96.4-1736991114_amd64.deb'
+app_url["opera"]='https://download3.operacdn.com/ftp/pub/opera/desktop/116.0.5366.51/linux/opera-stable_116.0.5366.51_amd64.deb'
+app_url["postman"]='https://dl.pstmn.io/download/latest/linux_64?deviceId=9b3d6765-b77f-4680-967c-40f706325bf8'
+app_url["sublime"]='https://download.sublimetext.com/sublime-text_build-4192_amd64.deb'
+app_url["blender"]='https://ftp.nluug.nl/pub/graphics/blender/release/Blender4.3/blender-4.3.2-linux-x64.tar.xz'
+app_url["slack"]='https://downloads.slack-edge.com/desktop-releases/linux/x64/4.41.105/slack-desktop-4.41.105-amd64.deb'
+app_url["zed"]='https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz'
 APP_URL["min"]='https://github.com/minbrowser/min/releases/download/v1.33.1/min-1.33.1-amd64.deb'
 APP_URL["floorp"]='https://github.com/Floorp-Projects/Floorp/releases/download/v11.22.0/floorp-11.22.0.linux-x86_64.tar.bz2'
 APP_URL["mullvad"]='https://mullvad.net/en/download/browser/linux-x86_64/latest'
@@ -38,7 +38,7 @@ APP_URL["thunderbird"]='https://download-installer.cdn.mozilla.net/pub/thunderbi
 APP_URL["image-magick"]='https://imagemagick.org/archive/binaries/magick'
 APP_URL["warp"]='https://releases.warp.dev/stable/v0.2025.02.12.16.51.stable_03/warp-terminal_0.2025.02.12.16.51.stable.03_amd64.deb'
 APP_URL["nvim"]='https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz'
-APP_URL["zen"]='https://objects.githubusercontent.com/github-production-release-asset-2e65be/778556932/47b50b20-0950-48d6-8c79-26985841c3b1?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250221%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250221T083708Z&X-Amz-Expires=300&X-Amz-Signature=4412fb7af1b22d49a8cf7cdf9f089792c753983e489f85aba711a5202bb78358&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dzen.linux-x86_64.tar.xz&response-content-type=application%2Foctet-stream'
+APP_URL["zen"]='https://github.com/zen-browser/desktop/releases/latest/download/zen.linux-x86_64.tar.xz'
 APP_URL["wezterm"]='https://github.com/wez/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Ubuntu22.04.deb'
 APP_URL["obsidian"]='https://github.com/obsidianmd/obsidian-releases/releases/download/v1.8.4/obsidian_1.8.4_amd64.deb'
 APP_URL["firefox-developer-edition"]='https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US'
@@ -179,3 +179,13 @@ DESCRIPTION["stay_free"]='StayFree is your one-stop-shop for freeing up your val
 DESCRIPTION["icecat"]='GNU IceCat is the GNU version of the Firefox browser. Its main advantage is an ethical one: it is entirely free software.'
 DESCRIPTION["qbittorent"]='The original torrenting app. Fast, bulk torrent downloading from the desktop. Ideal for experienced users. Free Download.'
 DESCRIPTION["ripgrep"]='Recursively searches directories for a regex pattern'
+
+
+########################################################
+APP_URL["cursor"]='https://downloads.cursor.com/production/1d623c4cc1d3bb6e0fe4f1d5434b47b958b05876/linux/x64/Cursor-0.48.7-x86_64.AppImage'
+EXEC_FILE["cursor"]='AppRun'
+DESCRIPTION["cursor"]='Cursor is a proprietary AI-powered integrated development environment for Windows, macOS and Linux.'
+##################################################################
+APP_URL["hyperfine"]='https://github.com/sharkdp/hyperfine/releases/download/v1.19.0/hyperfine_1.19.0_amd64.deb'
+EXEC_FILE["hyperfine"]='usr/bin/hyperfine'
+DESCRIPTION["hyperfine"]='A command-line benchmarking tool.'
