@@ -28,7 +28,10 @@ GREEN_BOLD="\e[32;01m"
 BLUE_BOLD="\e[36;01m"
 PURPLE="\e[34m"
 
+if [[ -z $CWD ]]
+then
 CWD="${HOME}/.local"
+fi
 
 TEMP_DIR="/tmp"
 
