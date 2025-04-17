@@ -189,3 +189,7 @@ DESCRIPTION["cursor"]='Cursor is a proprietary AI-powered integrated development
 APP_URL["hyperfine"]='https://github.com/sharkdp/hyperfine/releases/download/v1.19.0/hyperfine_1.19.0_amd64.deb'
 EXEC_FILE["hyperfine"]='usr/bin/hyperfine'
 DESCRIPTION["hyperfine"]='A command-line benchmarking tool.'
+####
+APP_URL["tixati"]='https://download.tixati.com/tixati_3.33-1_amd64.deb'
+EXEC_FILE["tixati"]='usr/bin/tixati'
+DESCRIPTION["tixati"]='Tixati is a New and Powerful P2P System 100 0.000000ree, Simple and Easy to Use Bittorrent Client Contains NO Spyware and NO Ads Windows, Linux, and Android'

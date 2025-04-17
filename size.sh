@@ -25,7 +25,7 @@ get_available_storage()
 	#get the available space on the device to check if there is
 	#enough space to install the pacakge
 	#B1 for display the output in byte unit
-	df -B1	 | grep $USER | awk '{printf $4}'
+	df -B1 | grep ${HOME} | awk '{printf $4}'
 }
 
 
