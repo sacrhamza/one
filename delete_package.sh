@@ -20,6 +20,7 @@ delete_package()
 		remove_dir "${HOME}/.${1}"
 		remove_file "${DESKTOP_FILE_DIR}/$1.desktop"
 		remove_file "${ICON_DIR}/$1.png"
-		zenity --notification --window-icon="info" --text="$i is removed" --title="one"
+		#zenity --notification --window-icon="info" --text="$i is removed" --title="one"
+		notify-send -i "/home/hsacr/COMMON_CORE/one-app/build/assets/logos/$i.png" "one notification" "$i is removed"
 	fi
 }

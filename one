@@ -1,8 +1,5 @@
 #!/bin/bash
 
-declare -A APP_URL
-declare -A EXEC_FILE
-declare -A DESCRIPTION
 
 #required files
 #to just work fine
@@ -18,7 +15,7 @@ declare -A DESCRIPTION
 . ~/.local/bin/get_version.sh
 
 #list of packages 
-not_graghical_packages=(image-magick go)
+not_graghical_packages=(image-magick go hyperfine julia bat)
 
 TRUE=1
 FALSE=0
@@ -44,8 +41,6 @@ if [[ -z $CWD ]]
 then
 	CWD="${HOME}/.local"
 fi
-
-
 
 get_icon()
 {
@@ -90,8 +85,6 @@ Icon=${ICON_DIR}/$1.png
 Type=Application" > "${desktop_file}"
 	chmod +x "${desktop_file}"
 }
-
-
 
 check_package()
 {
@@ -166,7 +159,6 @@ handle_action()
 	fi
 }
 
-
 take_action()
 {
 	local action="${1}"
@@ -186,7 +178,7 @@ take_action()
 				then
 					printf "${GREEN_BOLD}${i^}${RESET}:\t${DESCRIPTION[$i]}\n"
 				fi
-			done | column -t
+			done
 			printf "${RESET}"
 		elif [[ "${action}" == 'graphic' ]]
 		then
@@ -315,7 +307,8 @@ search_package()
 	local arg_len=0
 	for app in  ${!APP_URL[@]}
 	do
-		len=$(printf "$1" | wc -c)
+		#len=$(printf "$1" | wc -c)
+		len=${#1}	
 		if [[ ${app:0:${len}} == $1 ]]
 		then
 			let arg_len+=1
@@ -339,7 +332,8 @@ do
 		elif enough_storage ${APP_URL[$i]} $i;
 		then
 			download_package "$i"	
-			zenity --notification --window-icon="info" --text="$i is installed" --title="one"
+			#zenity --notification --window-icon="info" --text="$i is installed" --title="one"
+			notify-send -i "${ICON_DIR}/$i.png" "one notification" "$i is installed"
 		else
 			exit 1
 		fi

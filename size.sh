@@ -44,6 +44,7 @@ enough_storage()
 	available_size=$(get_available_storage)
 	if [[ $package_size -ge $available_size ]]
 	then
+		return $ENOUGH
 		package_size_mega=$((package_size / 1024 / 1024))
 		available_size_mega=$((available_size / 1024 / 1024))
 		needed_size=$(($package_size_mega - $available_size_mega))
