@@ -1,26 +1,212 @@
 #!/bin/bash
 
 
-#required files
-#to just work fine
-#check if any of these files is even exist
-. ~/.local/bin/database.sh
-. ~/.local/bin/download_package.sh
-. ~/.local/bin/delete_package.sh
-. ~/.local/bin/utilities.sh
-. ~/.local/bin/size.sh
-. ~/.local/bin/setup.sh
-. ~/.local/bin/zenity_app.sh
-. ~/.local/bin/help.sh
-. ~/.local/bin/get_version.sh
+#url of oneperson packages
+declare -A APP_URL
+declare -A DESCRIPTION 
+declare -A EXEC_FILE
+
+#URL PACKAGES
+APP_URL["brave"]="https://github.com/brave/brave-browser/releases/download/v1.76.80/brave-browser_1.76.80_amd64.deb"
+APP_URL["ghostty"]='https://github.com/mkasberg/ghostty-ubuntu/releases/download/1.1.2-0-ppa1/ghostty_1.1.2-0.ppa1_amd64_22.04.deb'
+APP_URL["firefox"]="https://download-installer.cdn.mozilla.net/pub/firefox/releases/134.0.2/linux-x86_64/en-US/firefox-134.0.2.tar.bz2"
+APP_URL["google-chrome"]="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+APP_URL["chromium"]="https://download-chromium.appspot.com/dl/Linux_x64?type=snapshots"
+APP_URL["tor"]="https://dist.torproject.org/torbrowser/14.0.7/tor-browser-linux-x86_64-14.0.7.tar.xz"
+APP_URL["opera"]="https://download.opera.com/download/get/?partner=www&opsys=Linux"
+APP_URL["edge"]="https://go.microsoft.com/fwlink?linkid=2149051&brand=M102"
+APP_URL["vivaldi"]="https://downloads.vivaldi.com/stable/vivaldi-stable_7.0.3495.29-1_amd64.deb"
+APP_URL["codium"]='https://github.com/VSCodium/vscodium/releases/download/1.96.4.25017/codium_1.96.4.25017_amd64.deb'
+APP_URL["atom"]='https://github.com/atom/atom/releases/download/v1.60.0/atom-amd64.deb'
+APP_URL["discord"]='https://stable.dl2.discordapp.net/apps/linux/0.0.90/discord-0.0.90.deb'
+APP_URL["telegram"]='https://telegram.org/dl/desktop/linux'
+APP_URL["pycharm"]='https://download.jetbrains.com/python/pycharm-professional-2024.3.1.1-aarch64.tar.gz'
+APP_URL["midori"]='https://github.com/goastian/midori-desktop/releases/download/v11.5/midori_11.5_amd64.deb'
+APP_URL["waterfox"]='https://cdn1.waterfox.net/waterfox/releases/latest/linux'
+APP_URL["seamonkey"]='https://archive.seamonkey-project.org/releases/2.53.20/linux-x86_64/en-US/seamonkey-2.53.20.en-US.linux-x86_64.tar.bz2'
+APP_URL["code"]='https://vscode.download.prss.microsoft.com/dbazure/download/stable/cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba/code_1.96.4-1736991114_amd64.deb'
+APP_URL["opera"]='https://download3.operacdn.com/ftp/pub/opera/desktop/116.0.5366.51/linux/opera-stable_116.0.5366.51_amd64.deb'
+APP_URL["postman"]='https://dl.pstmn.io/download/latest/linux_64?deviceId=9b3d6765-b77f-4680-967c-40f706325bf8'
+APP_URL["sublime"]='https://download.sublimetext.com/sublime-text_build-4192_amd64.deb'
+APP_URL["blender"]='https://ftp.nluug.nl/pub/graphics/blender/release/Blender4.3/blender-4.3.2-linux-x64.tar.xz'
+APP_URL["slack"]='https://downloads.slack-edge.com/desktop-releases/linux/x64/4.41.105/slack-desktop-4.41.105-amd64.deb'
+APP_URL["zed"]='https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz'
+APP_URL["min"]='https://github.com/minbrowser/min/releases/download/v1.33.1/min-1.33.1-amd64.deb'
+APP_URL["floorp"]='https://github.com/Floorp-Projects/Floorp/releases/download/v11.22.0/floorp-11.22.0.linux-x86_64.tar.bz2'
+APP_URL["mullvad"]='https://mullvad.net/en/download/browser/linux-x86_64/latest'
+APP_URL["go"]='https://go.dev/dl/go1.23.5.linux-amd64.tar.gz'
+APP_URL["clion"]='https://download.jetbrains.com/cpp/CLion-2024.3.2.tar.gz'
+APP_URL["idea"]='https://download.jetbrains.com/idea/ideaIU-2024.3.2.1.tar.gz'
+APP_URL["phpstorm"]='https://download.jetbrains.com/webide/PhpStorm-2024.3.2.1.tar.gz'
+APP_URL["webstorm"]='https://download.jetbrains.com/webstorm/WebStorm-2024.3.2.1.tar.gz'
+APP_URL["rider"]='https://download.jetbrains.com/rider/JetBrains.Rider-2024.3.4.tar.gz'
+APP_URL["waveterm"]='https://dl.waveterm.dev/releases-w2/waveterm-linux-amd64-0.11.0.deb'
+APP_URL["android-studio"]='https://r1---sn-hxqpuxa-jhol.gvt1.com/edgedl/android/studio/ide-zips/2024.2.2.13/android-studio-2024.2.2.13-linux.tar.gz?cms_redirect=yes&met=1737891760,&mh=9o&mip=197.230.240.146&mm=28&mn=sn-hxqpuxa-jhol&ms=nvh&mt=1737891372&mv=m&mvi=1&pl=20&rmhost=r5---sn-hxqpuxa-jhol.gvt1.com&rms=nvh,nvh&shardbypass=sd'
+APP_URL["thunderbird"]='https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/128.6.0esr/linux-x86_64/fr/thunderbird-128.6.0esr.tar.bz2'
+APP_URL["image-magick"]='https://imagemagick.org/archive/binaries/magick'
+APP_URL["warp"]='https://releases.warp.dev/stable/v0.2025.02.12.16.51.stable_03/warp-terminal_0.2025.02.12.16.51.stable.03_amd64.deb'
+APP_URL["nvim"]='https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz'
+APP_URL["zen"]='https://github.com/zen-browser/desktop/releases/latest/download/zen.linux-x86_64.tar.xz'
+APP_URL["wezterm"]='https://github.com/wez/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22.Ubuntu22.04.deb'
+APP_URL["obsidian"]='https://github.com/obsidianmd/obsidian-releases/releases/download/v1.8.4/obsidian_1.8.4_amd64.deb'
+APP_URL["firefox-developer-edition"]='https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US'
+APP_URL["netbeans"]='https://dlcdn.apache.org/netbeans/netbeans-installers/24/apache-netbeans_24-1_all.deb'
+APP_URL["ungoogled-chromium"]='https://github.com/ungoogled-software/ungoogled-chromium-portablelinux/releases/download/133.0.6943.53-1/ungoogled-chromium_133.0.6943.53-1_linux.tar.xz'
+APP_URL["ffmpeg"]='https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz'
+APP_URL["datagrip"]='https://download.jetbrains.com/datagrip/datagrip-2024.3.4.tar.gz'
+APP_URL["rubymine"]='https://download.jetbrains.com/ruby/RubyMine-2024.3.3.tar.gz'
+APP_URL["julia"]='https://julialang-s3.julialang.org/bin/linux/x64/1.11/julia-1.11.3-linux-x86_64.tar.gz'
+APP_URL["rustrover"]='https://download.jetbrains.com/rustrover/RustRover-2024.3.4.tar.gz'
+APP_URL["theia"]='https://0ms.dev/mirrors/eclipse//theia/ide/latest/linux/TheiaIDE.AppImage'
+APP_URL["goland"]='https://download.jetbrains.com/go/goland-2024.3.3.tar.gz'
+APP_URL["bitwarden"]='https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb'
+APP_URL["simplenote"]='https://github.com/Automattic/simplenote-electron/releases/download/v2.23.0/Simplenote-linux-2.23.0-amd64.deb'
+APP_URL["krita"]='https://download.kde.org/stable/krita/5.2.9/krita-5.2.9-x86_64.AppImage'
+APP_URL["shotcut"]='https://altushost-swe.dl.sourceforge.net/project/shotcut/v25.01.25/shotcut-linux-x86_64-250125.txz?viasf=1'
+APP_URL["bat"]='https://github.com/sharkdp/bat/releases/download/v0.25.0/bat-musl_0.25.0_musl-linux-amd64.deb'
+APP_URL["stay_free"]='https://github.com/stayfree-app/desktop-releases/releases/latest/download/stayfree-linux-amd64.deb'
+APP_URL["icecat"]='https://icecatbrowser.org/assets/icecat/115.22.0/icecat_115.22.0esr-1_amd64.deb'
+APP_URL["qbittorent"]='https://deac-fra.dl.sourceforge.net/project/qbittorrent/qbittorrent-appimage/qbittorrent-5.0.4/qbittorrent-5.0.4_x86_64.AppImage?viasf=1'
+APP_URL["ripgrep"]='https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb'
+
+#EXEC FILES OF ONE PACKAGES
+EXEC_FILE["brave"]="opt/brave.com/brave/brave"
+EXEC_FILE["firefox"]="firefox-bin"
+EXEC_FILE["chromium"]='chrome'
+EXEC_FILE["tor"]='Browser/firefox.real'
+EXEC_FILE["edge"]='opt/microsoft/msedge/microsoft-edge'
+EXEC_FILE["vivaldi"]='opt/vivaldi/vivaldi-bin'
+EXEC_FILE["google-chrome"]='opt/google/chrome/google-chrome'
+EXEC_FILE["codium"]='usr/share/codium/bin/codium'
+EXEC_FILE["atom"]='usr/bin/atom'
+EXEC_FILE["discord"]='usr/share/discord/Discord'
+EXEC_FILE["telegram"]='Telegram'
+EXEC_FILE["midori"]='opt/midori/midori'
+EXEC_FILE["waterfox"]='waterfox'
+EXEC_FILE["seamonkey"]='seamonkey-bin'
+EXEC_FILE["code"]='usr/share/code/bin/code'
+EXEC_FILE["opera"]='usr/lib/x86_64-linux-gnu/opera/opera'
+EXEC_FILE["postman"]='app/Postman'
+EXEC_FILE["sublime"]='opt/sublime_text/sublime_text'
+EXEC_FILE["blender"]='blender-launcher'
+EXEC_FILE["zed"]='bin/zed'
+EXEC_FILE["min"]='opt/Min/min'
+EXEC_FILE["floorp"]='floorp-bin'
+EXEC_FILE["mullvad"]='Browser/start-mullvad-browser'
+EXEC_FILE["go"]='bin/go'
+EXEC_FILE["pycharm"]='bin/pycharm.sh'
+EXEC_FILE["clion"]='bin/clion'
+EXEC_FILE["idea"]='bin/idea'
+EXEC_FILE["phpstorm"]='bin/phpstorm'
+EXEC_FILE["webstorm"]='/bin/webstorm'
+EXEC_FILE["rider"]='bin/rider'
+EXEC_FILE["waveterm"]='opt/Wave/waveterm'
+EXEC_FILE["android-studio"]='bin/studio'
+EXEC_FILE["thunderbird"]='thunderbird'
+EXEC_FILE["image-magick"]='AppRun'
+EXEC_FILE["warp"]='opt/warpdotdev/warp-terminal/warp'
+EXEC_FILE["nvim"]='bin/nvim'
+EXEC_FILE["slack"]='usr/lib/slack/slack'
+EXEC_FILE["zen"]='zen'
+EXEC_FILE["wezterm"]='usr/bin/wezterm'
+EXEC_FILE["obsidian"]='opt/Obsidian/obsidian'
+EXEC_FILE["firefox-developer-edition"]='firefox-bin'
+EXEC_FILE["netbeans"]='usr/lib/apache-netbeans/bin/netbeans'
+EXEC_FILE["ungoogled-chromium"]='chrome'
+EXEC_FILE["ffmpeg"]='bin/ffmpeg'
+EXEC_FILE["datagrip"]='bin/datagrip'
+EXEC_FILE["rubymine"]='bin/rubymine'
+EXEC_FILE["julia"]='bin/julia'
+EXEC_FILE["rustrover"]='bin/rustrover'
+EXEC_FILE["theia"]='AppRun'
+EXEC_FILE["goland"]='bin/goland'
+EXEC_FILE["bitwarden"]='opt/Bitwarden/bitwarden'
+EXEC_FILE["simplenote"]='opt/Simplenote/simplenote'
+EXEC_FILE["krita"]='AppRun'
+EXEC_FILE["shotcut"]='Shotcut.app/shotcut'
+EXEC_FILE["ghostty"]='usr/bin/ghostty'
+EXEC_FILE["bat"]='usr/bin/bat'
+EXEC_FILE["stay_free"]='opt/StayFree/stayfree-desktop'
+EXEC_FILE["icecat"]='usr/local/lib/icecat/icecat'
+EXEC_FILE["qbittorent"]='AppRun'
+EXEC_FILE["ripgrep"]='usr/bin/rg'
+
+#DESCRIPTION OF ONE PACKAGES
+DESCRIPTION["floorp"]='A privacy-focused web browser, built on Firefox, with additional security features.'
+DESCRIPTION["opera"]='A web browser with built-in VPN, ad blocker, and various customization options.'
+DESCRIPTION["tor"]='A privacy-centric browser that routes traffic through the Tor network for anonymity.'
+DESCRIPTION["chromium"]='An open-source web browser that forms the basis for Google Chrome.'
+DESCRIPTION["vivaldi"]='A highly customizable web browser with unique features like tab stacking and advanced privacy options.'
+DESCRIPTION["edge"]='Microsoft’s Chromium-based browser, offering integration with Windows and various Microsoft services.'
+DESCRIPTION["telegram"]='A cloud-based messaging app focused on speed and security with support for multimedia.'
+DESCRIPTION["nvim"]='A modern, extensible text editor, focused on improving upon the classic Vim.'
+DESCRIPTION["firefox"]='Developer Edition: A version of Firefox geared towards web developers with tools for debugging and development.'
+DESCRIPTION["seamonkey"]='A web browser suite with an email client, web development tools, and more.'
+DESCRIPTION["firefox"]='A popular open-source web browser known for privacy, speed, and extensibility.'
+DESCRIPTION["atom"]='A highly customizable, open-source text editor used for coding, with extensive plugin support.'
+DESCRIPTION["google-chrome"]='A fast, secure web browser developed by Google, known for its integration with Google services.'
+DESCRIPTION["obsidian"]='A powerful note-taking and knowledge management tool with support for markdown and linking.'
+DESCRIPTION["zen"]='Likely a lightweight text editor or app focused on simplicity and minimalism (could refer to different apps).'
+DESCRIPTION["zed"]='A fast, collaborative code editor, offering features like real-time collaboration and version control.'
+DESCRIPTION["phpstorm"]='A full-featured IDE for PHP development, offering robust code completion, debugging, and integration tools.'
+DESCRIPTION["code"]='A popular, open-source code editor by Microsoft with extensive support for languages and extensions.'
+DESCRIPTION["postman"]='A platform for building, testing, and managing APIs with powerful tools for sending HTTP requests and analyzing responses.'
+DESCRIPTION["blender"]='A powerful open-source tool for 3D modeling, animation, rendering, and video editing.'
+DESCRIPTION["rider"]='A cross-platform IDE for .NET development, built by JetBrains.'
+DESCRIPTION["webstorm"]='A full-featured IDE for JavaScript and front-end development, by JetBrains.'
+DESCRIPTION["idea"]='A powerful, Java-focused IDE from JetBrains, supporting various programming languages.'
+DESCRIPTION["wezterm"]='A modern terminal emulator that supports features like true color, tabs, and Unicode.'
+DESCRIPTION["sublime"]='Text: A fast, lightweight, and extensible text editor for coding, known for its performance and minimal interface.'
+DESCRIPTION["pycharm"]='An IDE for Python development, created by JetBrains, with excellent code completion and debugging features.'
+DESCRIPTION["mullvad"]='A privacy-focused VPN service with no personal information required for use.'
+DESCRIPTION["waveterm"]='A terminal emulator that allows for better customization and various features.'
+DESCRIPTION["discord"]='A voice, video, and text chat platform for gaming communities, but widely used for various communities.'
+DESCRIPTION["midori"]='A lightweight web browser focusing on speed and minimalism.'
+DESCRIPTION["codium"]='The open-source build of Visual Studio Code, without Microsoft branding and telemetry.'
+DESCRIPTION["thunderbird"]='An open-source email client, known for its extensibility and robust features.'
+DESCRIPTION["min"]='A minimalist web browser focused on speed and simplicity.'
+DESCRIPTION["clion"]='A C and C++ IDE developed by JetBrains with intelligent code assistance and debugging features.'
+DESCRIPTION["brave"]='A privacy-focused browser that blocks ads and trackers by default.'
+DESCRIPTION["slack"]='A team communication and collaboration tool, often used in workplaces to chat, share files, and integrate with other tools.'
+DESCRIPTION["android-studio"]='The official IDE for Android development, featuring a robust suite of tools for building and testing Android apps.'
+DESCRIPTION["image-magick"]='A powerful tool for creating, editing, and converting bitmap images.'
+DESCRIPTION["go"]='A programming language developed by Google, known for simplicity, speed, and concurrency support.'
+DESCRIPTION["waterfox"]='A fork of Firefox, focused on privacy and legacy add-on support.'
+DESCRIPTION["warp"]='A modern terminal that promises speed, simplicity, and collaboration (still evolving).'
+DESCRIPTION["netbeans"]='netbeans'
+DESCRIPTION["datagrip"]='A powerful cross-platform tool for relational and NoSQL databases'
+DESCRIPTION["rubymine"]='RubyMine is an integrated development environment (IDE) specifically designed for Ruby and Ruby on Rails development.'
+DESCRIPTION["julia"]='The Julia Programming Language'
+DESCRIPTION["theia"]='A modern and open IDE for cloud and desktop. The Theia IDE is based on the Theia platform.'
+DESCRIPTION["goland"]=''
+DESCRIPTION["simplenote"]=''
+DESCRIPTION["krita"]=''
+DESCRIPTION["bat"]=''
+DESCRIPTION["ghostty"]='Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.'
+DESCRIPTION["stay_free"]='StayFree is your one-stop-shop for freeing up your valuable time and blocking apps and websites that you find distracting or want to avoid.'
+DESCRIPTION["icecat"]='GNU IceCat is the GNU version of the Firefox browser. Its main advantage is an ethical one: it is entirely free software.'
+DESCRIPTION["qbittorent"]='The original torrenting app. Fast, bulk torrent downloading from the desktop. Ideal for experienced users. Free Download.'
+DESCRIPTION["ripgrep"]='Recursively searches directories for a regex pattern'
+
+
+########################################################
+APP_URL["cursor"]='https://downloads.cursor.com/production/1d623c4cc1d3bb6e0fe4f1d5434b47b958b05876/linux/x64/Cursor-0.48.7-x86_64.AppImage'
+EXEC_FILE["cursor"]='AppRun'
+DESCRIPTION["cursor"]='Cursor is a proprietary AI-powered integrated development environment for Windows, macOS and Linux.'
+##################################################################
+APP_URL["hyperfine"]='https://github.com/sharkdp/hyperfine/releases/download/v1.19.0/hyperfine_1.19.0_amd64.deb'
+EXEC_FILE["hyperfine"]='usr/bin/hyperfine'
+DESCRIPTION["hyperfine"]='A command-line benchmarking tool.'
+
+
+
 
 #list of packages 
-not_graghical_packages=(image-magick go hyperfine julia bat)
+not_graghical_packages=(image-magick go nvim)
 
 TRUE=1
 FALSE=0
 
-#simple colors
 RED="\e[31m"
 GREEN="\e[32m"
 BLUE="\e[36m"
@@ -28,19 +214,18 @@ RESET="\e[00m"
 RED_BOLD="\e[31;01m"
 GREEN_BOLD="\e[32;01m"
 BLUE_BOLD="\e[36;01m"
-PURPLE="\e[34m"
 
-#Very important vars
+CWD="${HOME}/.local"
+
 TEMP_DIR="/tmp"
+
 DESKTOP_FILE_DIR="${HOME}/.local/share/applications"
+
 ICON_DIR="${HOME}/.local/share/icons"
+
 BIN_DIR="${HOME}/.local/bin"
 
-
-if [[ -z $CWD ]]
-then
-	CWD="${HOME}/.local"
-fi
+ONE_DIR=$(dirname $0)
 
 get_icon()
 {
@@ -70,10 +255,7 @@ create_desktop_file()
 	cd "${CWD}/$1/"
 	local variable=$(echo $1 | tr '-' ' ' | awk '{printf $NF}')
 	local icon_file=$(get_icon "$variable")
-	if [[ -n "${icon_file}" ]]
-	then
-		cp "${icon_file}" "${ICON_DIR}/$1.png"
-	fi
+	cp "${icon_file}" "${ICON_DIR}/$1.png"
 	cd -
 
 	printf "[Desktop Entry]
@@ -86,6 +268,121 @@ Type=Application" > "${desktop_file}"
 	chmod +x "${desktop_file}"
 }
 
+download_package()
+{
+	local app_name="$1"
+	if [[ -d "${CWD}/${app_name}" ]]
+	then
+		printf "\n${BLUE}$i ${RED}is installed\n${RESET}\n"
+		return 0
+	fi
+	mkdir "${CWD}/TMP"
+	local format
+	local place="${TEMP_DIR}/${app_name}"
+	wget -O "${TEMP_DIR}/${app_name}" ${APP_URL[$1]}
+	if [[ -n $(file "${place}" | grep Debian) ]]
+	then
+		format='deb'
+	elif [[ -n $(file "${place}" | grep XZ) ]]
+	then
+		format='tar.xz'
+	elif [[ -n $(file "${place}" | grep bzip2) ]]
+	then
+		format='tar.bz2'
+	elif [[ -n $(file "${place}" | grep gzip) ]]
+	then
+		format='gzip'
+	elif [[ -n $(file "${place}" | grep Zip) ]]
+	then
+		format='zip'
+	elif [[ -n $(file "${place}" | grep ELF) ]]
+	then
+		format='elf'
+	else
+		rm -rf "${place}"
+		rm -rf "${CWD}/TMP"
+		printf "${RED}unknown format $(file ${place})\n"
+		exit 1
+	fi
+	mv "${TEMP_DIR}/${1}" "${TEMP_DIR}/${1}.${format}"	
+	case $format in
+		'deb')
+			dpkg -x "${TEMP_DIR}/${app_name}.deb" "${CWD}/TMP/${app_name}"
+			;;
+		'tar.xz' | 'tar.bz2' | 'gzip')
+			tar -xf "${TEMP_DIR}/${app_name}.${format}" --directory="$CWD/TMP"
+;;
+		'zip')
+			unzip "${TEMP_DIR}/${app_name}.zip" -d "${CWD}/TMP"
+			;;
+		'elf')
+			chmod +x "${TEMP_DIR}/${app_name}.elf"  
+			cd ${TEMP_DIR} && ${TEMP_DIR}/${app_name}.elf --appimage-extract && cd -
+			mv "${TEMP_DIR}/squashfs-root" "${CWD}/TMP/${app_name}"
+			;;
+		*);;
+	esac
+	mv "${CWD}"/TMP/* "${CWD}/${app_name}"
+	rm -r "${CWD}/TMP/"
+	rm -rf "${TEMP_DIR}/${app_name}.${format}"
+	if [[ ! -d "${BIN_DIR}" ]]
+	then
+		mkdir "${BIN_DIR}"
+	fi
+	ln -s "${CWD}/$1/${EXEC_FILE[$1]}" "${BIN_DIR}/${1}"
+	local i
+	for i in "${not_graghical_packages[@]}"
+	do
+		if [[ ${1} == $i ]]
+		then
+			return
+		fi
+	done
+	create_desktop_file $1
+}
+
+remove_dir()
+{
+	if [ -d $1 ]
+	then
+		rm -rfv $1
+	fi
+}
+
+remove_file()
+{
+	if [ -e "$1" ]
+	then
+		rm -rfv "$1"
+	fi
+}
+
+delete_package()
+{	
+	if [[ ! -d "${CWD}/${1}" ]]
+	then
+		printf "\n${RED}${1} is not installed\n${RESET}but you can install it using: ${GREEN}one -i ${1}${RESET}\n"
+		return 0
+	fi
+	if [[ -z $2 ]]
+	then
+		read -p "are you sure you want to remove $1 [y/n]: " answer
+	else
+		answer=yes
+	fi
+	if [[ "${answer,,}" == @(yes|y) ]]
+	then
+		remove_file "${BIN_DIR}/$1"
+		remove_dir "${CWD}/$1"
+		remove_dir "${HOME}/.config/$1"
+		remove_dir "${HOME}/.cache/$1"
+		remove_dir "${HOME}/.${1}"
+		remove_file "${DESKTOP_FILE_DIR}/$1.desktop"
+		remove_file "${ICON_DIR}/$1.png"
+		zenity --notification --window-icon="info" --text="$i is removed" --title="one"
+	fi
+}
+
 check_package()
 {
 	if [[ -n "${APP_URL[$1]}" ]]
@@ -96,12 +393,27 @@ check_package()
 	fi 
 }
 
+
+display_help_message()
+{
+	printf "${BLUE}oneaperson package tool:${RESET}  ${GREEN}one [OPTION] [PACKAGE?]
+\t${RESET}${GREEN}init, --init, -I${RESET}\tinstall oneperson package tool locally
+\t${RESET}${GREEN}install, --install, -i${RESET}\tinstall a package
+\t${GREEN}remove, --remove, -r${RESET}\tremove a package
+\t${GREEN}search, --search, -s${RESET}\tsearch for a package
+\t${GREEN}list, --list, -l${RESET}\tlist the installed packages
+\t${GREEN}all, --all, -a${RESET}\t\tlist all available packages to install
+\t${GREEN}version, --version, -v${RESET}\tdisplay oneperson package tool version
+\t${GREEN}help, --help, -h${RESET}\tdisplay this help message
+\t${GREEN}graphic, --graphic, -G${RESET}\tuse zenity to install/remove packages
+"
+}
+
 #this function is used to display an error message because an option is not valid
 display_error_message()
 {
 	local NOT_VALID_OPTION=1
 	local option="${1}"
-
 	printf "${RED_BOLD}error: ${RESET} ${BLUE_BOLD}${option}${RESET} ${RED}is not a valid option${RESET}\n"
 	display_help_message
 	exit $NOT_VALID_OPTION
@@ -111,7 +423,6 @@ display_error_message()
 return_action()
 {
 	local option="${1}"
-
 	case "${option}" in
 		install | '--install' | '-i')
 			echo download
@@ -139,7 +450,6 @@ valid_arguments[1]='list --list -l --help -h help -G --graphical graphical --all
 check_valid_arguments()
 {
 	local i
-
 	for i in ${valid_arguments[$1]}
 	do
 		if [[ $2 == $i ]]
@@ -147,6 +457,40 @@ check_valid_arguments()
 			echo 1
 		fi	
 	done
+}
+
+
+zenity_app()
+{
+		declare -a installed_app removed_app
+		declare -i remove_count=0 install_count=0
+		count=0
+		for i in ${!APP_URL[@]}
+		do
+			if [[ -d "${CWD}/$i" ]]
+			then
+				installed_app[${install_count}]="FALSE $i REMOVE"
+				((install_count++))
+			else
+				removed_app[${remove_count}]="FALSE $i INSTALL"
+				((remove_count++))
+			fi
+		done
+		option=$(zenity --window-icon=${ICON_DIR}/oneperson.png --title="one" --width=750 --height=500 --list\
+		--checklist \
+		--column "Checkbox"  \
+		--column "app" \
+		--column "INSTALLED/REMOVED" ${installed_app[@]} ${removed_app[@]})
+		if [[ -z "${option}" ]]
+		then
+			zenity --warning --text="you should choose an app"
+			exit 1
+		fi
+		apps=($(echo ${option} | tr '|' ' '))
+		for i in ${apps[@]}
+		do
+			handle_action $i
+		done
 }
 
 handle_action()
@@ -159,10 +503,140 @@ handle_action()
 	fi
 }
 
+
+handle_path()
+{
+	local paths=($(echo $PATH | tr ':' ' '))
+	local found=0
+	for path in ${paths[@]}
+	do
+		if [[ ${path} == "${BIN_DIR}" ]]
+		then
+			found=1
+			echo 0
+		fi
+	done
+	if [[ $found -eq 0 ]]
+	then
+		printf '\nPATH="${PATH}:${HOME}/.local/bin"' >> ~/.zshrc
+	fi
+	echo 1
+}
+
+create_man_page()
+{
+	if [[ ! -f "${HOME}/.local/share/man/man1/one.1" ]]
+	then
+		mkdir -p "${HOME}/.local/share/man/man1"
+		printf '.TH oneperson man 2025/02/02 oneperson manual
+.SH oneperson | one
+install packages from its sources
+.SH SYNOPSIS
+.B one
+[options] [arguments]
+.SH DESCRIPTION
+install packages from its sources
+.SH OPTIONS
+.TP
+.B \-I, \-\-init, init
+install oneperson package tool locally
+.TP
+.B \-h, \-\-help, help
+Show help message and exit.
+.TP
+.B \-i, \-\-install, install
+install a specific package locally
+.TP
+.B \-r, \-\-remove, remove
+remove a specific package locally
+.TP
+.B \-s, \-\-search, search
+search for a package
+.TP
+.B \-l, \-\-list, list
+list installed packages
+.TP
+.B \-a, \-\-all, all
+list all available packages to install
+.TP
+.B \-G, \-\-graphical, graphical
+use zenity to install or remove packages
+.SH EXAMPLES
+.TP
+.B one help
+Show the help message.
+.TP
+.B one install brave code
+install brave-browser and vscode editor
+.TP
+.B one remove brave code
+remove brave-browser and vscode editor
+.SH AUTHOR
+oneperson onerealperson@icloud.com' > "${HOME}/.local/share/man/man1/one.1"
+	echo 1
+	
+	else
+		echo 0
+	fi
+}
+
+create_if_not_found()
+{
+	if [[ ! -d "$1" ]]
+	then
+		mkdir "$1"
+	fi
+}
+
+create_oneperson_desktop_file()
+{
+	if [[ ! -f "${ICON_DIR}/oneperson.png" || ! -f "${DESKTOP_FILE_DIR}/oneperson.desktop" ]]
+	then
+		#git clone https://github.com/sacrhamza/oneperson-icon.git /tmp/one
+		cp "${ONE_DIR}/oneperson.png"  "${ICON_DIR}"
+		#rm -rf /tmp/one
+		printf "[Desktop Entry]
+Name=One
+Comment=Oneperson package tool
+Exec=${BIN_DIR}/one -G
+Terminal=false
+Icon=oneperson
+Type=Application
+" > "${DESKTOP_FILE_DIR}/oneperson.desktop"
+	chmod +x "${DESKTOP_FILE_DIR}/oneperson.desktop" 
+	echo 1;
+	fi
+	echo 0;
+}
+
+setup()
+{
+	local variable
+	create_if_not_found "${BIN_DIR}"
+	create_if_not_found "${ICON_DIR}"
+	if [[ ! -e "${BIN_DIR}/one" ]]
+	then
+		variable=1
+		mv "$1" "${BIN_DIR}/one"
+		chmod +x "${BIN_DIR}/one"
+	fi
+	let variable+=$(handle_path)
+	let variable+=$(create_man_page)
+	let variable+=$(create_oneperson_desktop_file)
+	if [[ $variable -eq 0 ]]
+	then
+		printf "\n${GREEN}everything up to date${RESET}\n"
+	fi
+}
+
+get_version()
+{
+	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.0${RESET}\n"
+}
+
 take_action()
 {
 	local action="${1}"
-
 	if [[ "$action" == 'all' ]]
 		then
 			for i in ${!APP_URL[@]}
@@ -176,7 +650,7 @@ take_action()
 			do
 				if [[ -n "${APP_URL[${i}]}" && -d "${CWD}/${i}" ]]
 				then
-					printf "${GREEN_BOLD}${i^}${RESET}:\t${DESCRIPTION[$i]}\n"
+					printf "${GREEN_BOLD}${i^}${RESET}:\n\t${DESCRIPTION[$i]}\n"
 				fi
 			done
 			printf "${RESET}"
@@ -192,16 +666,15 @@ take_action()
 			get_version
 			exit 0
 		else
-d
 			display_help_message
 		fi
 }
+
 
 #this function is used to return one of these actions (list all help) if one of these is got (install[] remove[]) it will display the help message
 return_friendly_action()
 {
 	local option="${1}"
-
 	if [[ $(check_valid_arguments 0 ${option}) ]]
 	then
 		printf "${RED}error:${RESET} the option $i is used witout any package name\n"
@@ -239,7 +712,6 @@ package_arguments=("$@")
 declare -a valid_packages
 
 declare -i counter=0
-
 for package in "${package_arguments[@]}"
 do
 	if [[ $counter -eq 0 ]]
@@ -307,8 +779,7 @@ search_package()
 	local arg_len=0
 	for app in  ${!APP_URL[@]}
 	do
-		#len=$(printf "$1" | wc -c)
-		len=${#1}	
+		len=$(printf "$1" | wc -c)
 		if [[ ${app:0:${len}} == $1 ]]
 		then
 			let arg_len+=1
@@ -326,24 +797,14 @@ for i in ${valid_packages[@]}
 do
 	if [[ "$action" == 'download' ]]
 	then
-		if [[ -d "${CWD}/${i}" ]]
-		then
-			printf "\n${BLUE}$i ${RED}is installed\n${RESET}\n"
-		elif enough_storage ${APP_URL[$i]} $i;
-		then
-			download_package "$i"	
-			#zenity --notification --window-icon="info" --text="$i is installed" --title="one"
-			notify-send -i "${ICON_DIR}/$i.png" "one notification" "$i is installed"
-		else
-			exit 1
-		fi
-
+		download_package "$i"	
+		zenity --notification --window-icon="info" --text="$i is installed" --title="one"
+		printf "$i"
 	elif [[ "$action" == 'delete' ]]
 	then
 		delete_package "$i"
 	elif [[ "$action" == 'search' ]]
 	then
-		#hey
 		search_package "$i"
 	fi
 done
