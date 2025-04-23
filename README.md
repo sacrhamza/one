@@ -2,7 +2,7 @@
 
 ## Quick Start
 
-```console
+```bash
 git clone https://github.com/sacrhamza/one.git
 cd one
 bash one init
