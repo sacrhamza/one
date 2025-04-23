@@ -23,10 +23,10 @@ one list
 ```
 ###  list all available packages to install
 
-```
+```console
 one all
 ```
 ### Get One Package Tool Version
-```
+```console
 one -v
 ```
