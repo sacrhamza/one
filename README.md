@@ -9,24 +9,24 @@ bash one init
 $SHELL
 ```
 
-## To install a package:
+### To install a package:
 ```console
 one install package_name
 ```
-## To remove a package
+### To remove a package
 ```console
 one remove package_name
 ```
-## To list installed packages
+### To list installed packages
 ```console
 one list
 ```
-##  list all available packages to install
+###  list all available packages to install
 
 ```
 one all
 ```
-## Get One Package Tool Version
+### Get One Package Tool Version
 ```
 one -v
 ```
