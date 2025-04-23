@@ -33,6 +33,10 @@ one list
 ```bash
 one all
 ```
+### Use Zenity to install/remove packages
+```
+one -G
+```
 #### Get One Package Tool Version
 ```bash
 one -v
@@ -41,7 +45,8 @@ one -v
 * curl
 * git
 * wget
+* awk
 #### To install dep On ubuntu
 ```bash
-apt install curl git wget -y
+apt install curl git wget awk -y
 ```
