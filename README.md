@@ -48,5 +48,5 @@ one -v
 * awk
 #### To install dep On ubuntu
 ```bash
-apt install curl git wget awk -y
+sudo apt install curl git wget awk -y
 ```
