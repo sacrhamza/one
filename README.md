@@ -21,8 +21,12 @@ one remove package_name
 ```console
 one list
 ```
-##  List Installed Packages
+##  list all available packages to install
 
 ```
 one all
+```
+## Get One Package Tool Version
+```
+one -v
 ```
