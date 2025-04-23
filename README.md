@@ -12,28 +12,28 @@ $SHELL
 
 ## How to use
 
-### To install a package:
+#### To install a package:
 ```bash
 one install package_name
 ```
-### To remove a package
+#### To remove a package
 ```bash
 one remove package_name
 ```
-### To search for a package
+#### To search for a package
 ```bash
 one search 'name'
 ```
-### To list installed packages
+#### To list installed packages
 ```bash
 one list
 ```
-###  To list all available packages to install
+####  To list all available packages to install
 
 ```bash
 one all
 ```
-### Get One Package Tool Version
+#### Get One Package Tool Version
 ```bash
 one -v
 ```
@@ -41,8 +41,7 @@ one -v
 * curl
 * git
 * wget
-### To install dep
-#### On ubuntu or Debian
+#### To install dep On ubuntu
 ```bash
 apt install curl git wget -y
 ```
