@@ -6,7 +6,7 @@
 git clone https://github.com/sacrhamza/one.git
 cd one
 bash one init
-source ~/.zshrc
+$SHELL
 ```
 
 ## To install a package:
