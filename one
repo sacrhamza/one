@@ -178,15 +178,16 @@ DESCRIPTION["datagrip"]='A powerful cross-platform tool for relational and NoSQL
 DESCRIPTION["rubymine"]='RubyMine is an integrated development environment (IDE) specifically designed for Ruby and Ruby on Rails development.'
 DESCRIPTION["julia"]='The Julia Programming Language'
 DESCRIPTION["theia"]='A modern and open IDE for cloud and desktop. The Theia IDE is based on the Theia platform.'
-DESCRIPTION["goland"]=''
+DESCRIPTION["goland"]='The complete IDE crafted for Gophers.'
 DESCRIPTION["simplenote"]=''
 DESCRIPTION["krita"]=''
-DESCRIPTION["bat"]=''
+DESCRIPTION["bat"]='A cat(1) clone with syntax highlighting and Git integration.'
 DESCRIPTION["ghostty"]='Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.'
 DESCRIPTION["stay_free"]='StayFree is your one-stop-shop for freeing up your valuable time and blocking apps and websites that you find distracting or want to avoid.'
 DESCRIPTION["icecat"]='GNU IceCat is the GNU version of the Firefox browser. Its main advantage is an ethical one: it is entirely free software.'
 DESCRIPTION["qbittorent"]='The original torrenting app. Fast, bulk torrent downloading from the desktop. Ideal for experienced users. Free Download.'
 DESCRIPTION["ripgrep"]='Recursively searches directories for a regex pattern'
+DESCRIPTION["ffmpeg"]='A complete, cross-platform solution to record, convert and stream audio and video.'
 
 
 ########################################################
@@ -650,7 +651,7 @@ take_action()
 			do
 				if [[ -n "${APP_URL[${i}]}" && -d "${CWD}/${i}" ]]
 				then
-					printf "${GREEN_BOLD}${i^}${RESET}:\n\t${DESCRIPTION[$i]}\n"
+					printf "${GREEN_BOLD}${i^}${RESET}:\t${DESCRIPTION[$i]}\n"
 				fi
 			done
 			printf "${RESET}"
@@ -783,12 +784,12 @@ search_package()
 		if [[ ${app:0:${len}} == $1 ]]
 		then
 			let arg_len+=1
-			printf "${GREEN_BOLD}${app^}${RESET}:\n\t${DESCRIPTION[$app]}\n"
+			printf "${GREEN_BOLD}${app^}${RESET}:\t${DESCRIPTION[$app]}\n"
 		fi
 	done
 	if [[ $arg_len -eq 0 ]]
 	then
-		printf "${RED_BOLD}${1^}${RESET}:\n\tno such program\n"
+		printf "${RED_BOLD}${1^}${RESET}:\tno such program\n"
 	fi
 }
 
