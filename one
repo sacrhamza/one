@@ -529,7 +529,7 @@ create_man_page()
 	if [[ ! -f "${HOME}/.local/share/man/man1/one.1" ]]
 	then
 		mkdir -p "${HOME}/.local/share/man/man1"
-		printf '.TH oneperson man 2025/02/02 oneperson manual
+		printf '.TH oneperson man 2025/04/23 oneperson manual
 .SH oneperson | one
 install packages from its sources
 .SH SYNOPSIS
