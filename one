@@ -617,7 +617,7 @@ setup()
 	if [[ ! -e "${BIN_DIR}/one" ]]
 	then
 		variable=1
-		mv "$1" "${BIN_DIR}/one"
+		cp "$1" "${BIN_DIR}/one"
 		chmod +x "${BIN_DIR}/one"
 	fi
 	let variable+=$(handle_path)
