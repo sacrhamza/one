@@ -199,8 +199,9 @@ APP_URL["hyperfine"]='https://github.com/sharkdp/hyperfine/releases/download/v1.
 EXEC_FILE["hyperfine"]='usr/bin/hyperfine'
 DESCRIPTION["hyperfine"]='A command-line benchmarking tool.'
 
-
-
+APP_URL["thorium"]='https://github.com/Alex313031/thorium/releases/download/M130.0.6723.174/thorium-browser_130.0.6723.174_SSE4.deb'
+EXEC_FILE["thorium"]='opt/chromium.org/thorium/thorium'
+DESCRIPTION["thorium"]='Thorium Browser Chromium fork for Linux, MacOS, Raspberry Pi, and Windows named after radioactive element No. 90.'
 
 #list of packages 
 not_graghical_packages=(image-magick go nvim)
