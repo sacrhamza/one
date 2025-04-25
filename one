@@ -203,8 +203,12 @@ APP_URL["thorium"]='https://github.com/Alex313031/thorium/releases/download/M130
 EXEC_FILE["thorium"]='opt/chromium.org/thorium/thorium'
 DESCRIPTION["thorium"]='Thorium Browser Chromium fork for Linux, MacOS, Raspberry Pi, and Windows named after radioactive element No. 90.'
 
+APP_URL["glow"]='https://github.com/charmbracelet/glow/releases/download/v2.1.0/glow_2.1.0_amd64.deb'
+EXEC_FILE["glow"]='usr/bin/glow'
+DESCRIPTION["glow"]='Glow is a terminal based markdown reader designed from the ground up to bring out the beauty—and power—of the CLI.'
+
 #list of packages 
-not_graghical_packages=(image-magick go nvim)
+not_graghical_packages=(image-magick go nvim glow ffmpeg hyperfine bat)
 
 TRUE=1
 FALSE=0
