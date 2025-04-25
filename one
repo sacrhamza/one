@@ -632,6 +632,15 @@ setup()
 	if [[ $variable -eq 0 ]]
 	then
 		printf "\n${GREEN}everything up to date${RESET}\n"
+	elif [[ $(tput cols) -ge 87 ]]
+	then
+		printf "${GREEN}"
+		while read line
+		do
+			printf "$line\n"
+			sleep 0.009
+		done < "${ONE_DIR}/art.txt"
+		printf "$RESET"
 	fi
 }
 
