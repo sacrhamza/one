@@ -665,7 +665,7 @@ take_action()
 			do
 				if [[ -n "${APP_URL[${i}]}" && -d "${CWD}/${i}" ]]
 				then
-					printf "${GREEN_BOLD}${i^}${RESET}:\t${DESCRIPTION[$i]}\n"
+					printf "${GREEN_BOLD}%-15s${RESET}${DESCRIPTION[$i]}\n" "${i^}:"
 				fi
 			done
 			printf "${RESET}"
