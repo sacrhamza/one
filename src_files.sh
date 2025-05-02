@@ -1,0 +1,12 @@
+. ${BIN_DIR}/list_one_dep.sh
+. ${BIN_DIR}/database.sh
+. ${BIN_DIR}/create_desktop_file.sh
+. ${BIN_DIR}/download_package.sh
+. ${BIN_DIR}/delete_package.sh
+. ${BIN_DIR}/utilities.sh
+. ${BIN_DIR}/size.sh
+. ${BIN_DIR}/setup.sh
+. ${BIN_DIR}/zenity_app.sh
+. ${BIN_DIR}/help.sh
+. ${BIN_DIR}/search_package.sh
+. ${BIN_DIR}/get_version.sh
