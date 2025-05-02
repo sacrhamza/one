@@ -486,10 +486,10 @@ zenity_app()
 		--checklist \
 		--column "Checkbox"  \
 		--column "app" \
-		--column "INSTALLED/REMOVED" ${installed_app[@]} ${removed_app[@]})
+		--column "INSTALLE/REMOVE" ${installed_app[@]} ${removed_app[@]})
 		if [[ -z "${option}" ]]
 		then
-			zenity --warning --text="you should choose an app"
+			#zenity --warning --text="you should choose an app"
 			exit 1
 		fi
 		apps=($(echo ${option} | tr '|' ' '))

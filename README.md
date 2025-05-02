@@ -37,6 +37,8 @@ one all
 ```
 one -G
 ```
+![image](zenity.png)
+
 #### Get One Package Tool Version
 ```bash
 one -v
