@@ -407,6 +407,7 @@ display_help_message()
 \t${RESET}${GREEN}install, --install, -i${RESET}\tinstall a package
 \t${GREEN}remove, --remove, -r${RESET}\tremove a package
 \t${GREEN}search, --search, -s${RESET}\tsearch for a package
+\t${GREEN}update, --update, -U${RESET}\tupdate one package tool
 \t${GREEN}list, --list, -l${RESET}\tlist the installed packages
 \t${GREEN}all, --all, -a${RESET}\t\tlist all available packages to install
 \t${GREEN}version, --version, -v${RESET}\tdisplay oneperson package tool version
@@ -559,6 +560,9 @@ remove a specific package locally
 .B \-s, \-\-search, search
 search for a package
 .TP
+.B \-U, \-\-update, update
+update one package tool
+.TP
 .B \-l, \-\-list, list
 list installed packages
 .TP
@@ -590,7 +594,7 @@ create_if_not_found()
 {
 	if [[ ! -d "$1" ]]
 	then
-		mkdir "$1"
+		mkdir -p "$1"
 	fi
 }
 
