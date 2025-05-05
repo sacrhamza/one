@@ -651,7 +651,7 @@ get_version()
 
 check_for_update()
 {
-	program_version=$(cat "$BIN_DIR/.version")
+	program_version="v0.0.0"
 	current_version=$(curl https://raw/.githubusercontent.com/sacrhamza/one/main/.version 2> /dev/null)
 
 	if [[ "$program_version" != "$current_version" ]]
@@ -662,7 +662,7 @@ check_for_update()
 	fi
 }
 
-remove_slef()
+remove_self()
 {
 	remove_file "$BIN_DIR/one"
 	remove_file "$DESKTOP_FILE_DIR/oneperson.desktop"
