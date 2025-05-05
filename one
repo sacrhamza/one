@@ -649,6 +649,38 @@ get_version()
 	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.0${RESET}\n"
 }
 
+check_for_update()
+{
+	program_version=$(cat "$BIN_DIR/.version")
+	current_version=$(curl https://raw/.githubusercontent.com/sacrhamza/one/main/.version 2> /dev/null)
+
+	if [[ "$program_version" != "$current_version" ]]
+	then
+		true
+	else
+		false
+	fi
+
+}
+
+remove_slef()
+{
+	remove_file "$BIN_DIR/one"
+	remove_file "$DESKTOP_FILE_DIR/oneperson.desktop"
+	remove_file "$ICON_DIR/oneperson.png"
+	remove_file "${HOME}/.local/share/man/man1/one.1"
+}
+
+update()
+{
+	if [[ check_for_update ]]
+	then
+		remove_self
+		git clone https://github.com/sacrhamza/one /tmp/one
+		bash /tmp/one init
+	fi
+}
+
 take_action()
 {
 	local action="${1}"
@@ -680,6 +712,9 @@ take_action()
 		then
 			get_version
 			exit 0
+		elif [[ "${action}" == 'update' ]]
+		then
+			update
 		else
 			display_help_message
 		fi
@@ -711,6 +746,9 @@ return_friendly_action()
 		;;
 		version | '--version' | '-v')
 			echo version
+		;;
+		update | '--update' | '-U')
+			echo update
 		;;
 		help | '--help' | '-h')
 			display_help_message
