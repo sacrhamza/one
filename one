@@ -650,7 +650,11 @@ setup()
 
 get_version()
 {
-	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.0${RESET}\n"
+	if check_for_update;
+	then
+		printf "${BLUE}there is un update, and you can update using:\n\tone --update"
+	fi
+	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.1${RESET}\n"
 }
 
 check_for_update()
