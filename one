@@ -660,7 +660,6 @@ check_for_update()
 	else
 		false
 	fi
-
 }
 
 remove_slef()
@@ -677,7 +676,7 @@ update()
 	then
 		remove_self
 		git clone https://github.com/sacrhamza/one /tmp/one
-		bash /tmp/one init
+		bash /tmp/one/one init
 	fi
 }
 
