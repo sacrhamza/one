@@ -4,29 +4,29 @@ download_package()
 	mkdir "${CWD}/TMP"
 	local format
 	local place="${TEMP_DIR}/${app_name}"
-	wget -O "${TEMP_DIR}/${app_name}" ${APP_URL[$1]}
-	if [[ -n $(file "${place}" | grep Debian) ]]
+	wget -O "${TEMP_DIR}/${app_name}" "${APP_URL[$1]}"
+	if file "${place}" | grep 'Debian' -q;
 	then
 		format='deb'
-	elif [[ -n $(file "${place}" | grep XZ) ]]
+	elif file "${place}" | grep 'XZ' -q;
 	then
 		format='tar.xz'
-	elif [[ -n $(file "${place}" | grep bzip2) ]]
+	elif file "${place}" | grep 'XZ' -q;
 	then
 		format='tar.bz2'
-	elif [[ -n $(file "${place}" | grep gzip) ]]
+	elif file "${place}" | grep 'gzip' -q;
 	then
 		format='gzip'
-	elif [[ -n $(file "${place}" | grep Zip) ]]
+	elif file "${place}" | grep 'Zip' -q;
 	then
 		format='zip'
-	elif [[ -n $(file "${place}" | grep ELF) ]]
+	elif file "${place}" | grep 'ELF' -q;
 	then
 		format='elf'
 	else
-		rm -rf "${place}"
 		rm -rf "${CWD}/TMP"
 		printf "${RED}unknown format $(file ${place})\n"
+		rm -rf "${place}"
 		exit 1
 	fi
 	mv "${TEMP_DIR}/${1}" "${TEMP_DIR}/${1}.${format}"	
@@ -58,10 +58,10 @@ download_package()
 	local i
 	for i in "${not_graghical_packages[@]}"
 	do
-		if [[ ${1} == $i ]]
+		if [[ "$1" == "$i" ]]
 		then
 			return
 		fi
 	done
-	create_desktop_file $1
+	create_desktop_file "$1"
 }

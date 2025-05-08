@@ -9,7 +9,7 @@ ONE_DIR=$(dirname "$0")
 . ${BIN_DIR}/src_files.sh
 
 #list of packages 
-not_graghical_packages=(ffmpeg image-magick go hyperfine julia bat glow zoxide shellcheck)
+not_graghical_packages=(ffmpeg image-magick go hyperfine julia bat glow zoxide shellcheck dysk)
 
 TRUE=1
 FALSE=0
@@ -40,9 +40,9 @@ check_package()
 {
 	if [[ -n "${APP_URL[$1]}" ]]
 	then
-		echo $TRUE
+		true
 	else
-		echo $FALSE
+		false
 	fi 
 }
 
@@ -232,7 +232,7 @@ do
 		continue
 	fi
 	((counter++))
-	if [[ $(check_package "${package,,}") -eq 0 && $action != search ]]
+	if ! check_package "${package,,}" && [[  $action != 'search' ]]
 	then
 		printf "${RED_BOLD}error:${RESET} ${BLUE_BOLD}${package}${RESET}${RED} is not found\n${RESET}"	
 		exit $ERROR

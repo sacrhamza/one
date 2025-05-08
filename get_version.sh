@@ -15,9 +15,9 @@ get_version()
 	if [[ "$program_version" != "$latest_version" ]]
 	then
 		printf "${RED}${program_version}\n"
-		printf "${PURPLE}One Current Version ${GREEN}$latest_version\n"
+		printf "${PURPLE}One Latest Version ${GREEN}$latest_version\n"
 		printf "${GREEN}there is an update, you can update one using: ${PURPLE}one --update-self${RESET}"
 	else
-		printf "${GREEN}${program_version}"
+		printf "${GREEN}${program_version}\n"
 	fi
 }

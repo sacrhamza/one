@@ -30,7 +30,7 @@ create_desktop_file()
 	then
 		cp "${icon_file}" "${ICON_DIR}/$1.png"
 	fi
-	cd -
+	cd "$OLDPWD"
 
 	printf "[Desktop Entry]
 Name=$1

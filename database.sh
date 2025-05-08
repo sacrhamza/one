@@ -271,3 +271,19 @@ DESCRIPTION["zoxide"]='zoxide is a smarter cd command, inspired by z and autojum
 APP_URL["shellcheck"]='https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck-v0.10.0.linux.x86_64.tar.xz'
 EXEC_FILE["shellcheck"]='shellcheck'
 DESCRIPTION["shellcheck"]='A shell script static analysis tool. ShellCheck is a GPLv3 tool that gives warnings and suggestions for bash/sh shell scripts.'
+
+APP_URL["zettlr"]='https://github.com/Zettlr/Zettlr/releases/download/v3.4.4/Zettlr-3.4.4-amd64.deb'
+EXEC_FILE["zettlr"]='usr/bin/zettlr'
+DESCRIPTION["zettlr"]='Zettlr brings simplicity back to your texts. Open-minded writing that adapts to your style. Fast information retrieval that finds what matters to you.'
+
+APP_URL["dysk"]='https://github.com/Canop/dysk/releases/download/v2.10.0/dysk_2.10.0.zip'
+EXEC_FILE["dysk"]='x86_64-unknown-linux-gnu/dysk'
+DESCRIPTION["dysk"]='A linux utility listing your filesystems.'
+
+APP_URL["freetube"]='https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube_0.23.5_amd64.deb'
+EXEC_FILE["freetube"]='opt/FreeTube/freetube'
+DESCRIPTION["freetube"]='FreeTube is free to download thanks to its open source nature.'
+
+APP_URL["element"]='https://packages.element.io/desktop/install/linux/glibc-x86-64/element-desktop.tar.gz'
+EXEC_FILE["element"]='element-desktop'
+DESCRIPTION["element"]='A sovereign and secure communications platform. Built by the creators of Matrix.'
