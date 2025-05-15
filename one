@@ -7,7 +7,7 @@ declare -A DESCRIPTION
 declare -A EXEC_FILE
 
 #URL PACKAGES
-APP_URL["brave"]="https://github.com/brave/brave-browser/releases/download/v1.76.80/brave-browser_1.76.80_amd64.deb"
+APP_URL["brave"]="https://github.com/brave/brave-browser/releases/download/v1.78.97/brave-browser_1.78.97_amd64.deb"
 APP_URL["ghostty"]='https://github.com/mkasberg/ghostty-ubuntu/releases/download/1.1.2-0-ppa1/ghostty_1.1.2-0.ppa1_amd64_22.04.deb'
 APP_URL["firefox"]="https://download-installer.cdn.mozilla.net/pub/firefox/releases/134.0.2/linux-x86_64/en-US/firefox-134.0.2.tar.bz2"
 APP_URL["google-chrome"]="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
@@ -188,8 +188,6 @@ DESCRIPTION["icecat"]='GNU IceCat is the GNU version of the Firefox browser. Its
 DESCRIPTION["qbittorent"]='The original torrenting app. Fast, bulk torrent downloading from the desktop. Ideal for experienced users. Free Download.'
 DESCRIPTION["ripgrep"]='Recursively searches directories for a regex pattern'
 DESCRIPTION["ffmpeg"]='A complete, cross-platform solution to record, convert and stream audio and video.'
-
-
 ########################################################
 APP_URL["cursor"]='https://downloads.cursor.com/production/1d623c4cc1d3bb6e0fe4f1d5434b47b958b05876/linux/x64/Cursor-0.48.7-x86_64.AppImage'
 EXEC_FILE["cursor"]='AppRun'
@@ -198,14 +196,19 @@ DESCRIPTION["cursor"]='Cursor is a proprietary AI-powered integrated development
 APP_URL["hyperfine"]='https://github.com/sharkdp/hyperfine/releases/download/v1.19.0/hyperfine_1.19.0_amd64.deb'
 EXEC_FILE["hyperfine"]='usr/bin/hyperfine'
 DESCRIPTION["hyperfine"]='A command-line benchmarking tool.'
-
+##################################################################
 APP_URL["thorium"]='https://github.com/Alex313031/thorium/releases/download/M130.0.6723.174/thorium-browser_130.0.6723.174_SSE4.deb'
 EXEC_FILE["thorium"]='opt/chromium.org/thorium/thorium'
 DESCRIPTION["thorium"]='Thorium Browser Chromium fork for Linux, MacOS, Raspberry Pi, and Windows named after radioactive element No. 90.'
-
+##################################################################
 APP_URL["glow"]='https://github.com/charmbracelet/glow/releases/download/v2.1.0/glow_2.1.0_amd64.deb'
 EXEC_FILE["glow"]='usr/bin/glow'
 DESCRIPTION["glow"]='Glow is a terminal based markdown reader designed from the ground up to bring out the beauty—and power—of the CLI.'
+##################################################################
+APP_URL["stacer"]='https://github.com/oguzhaninan/Stacer/releases/download/v1.1.0/stacer_1.1.0_amd64.deb'
+EXEC_FILE["stacer"]='usr/share/stacer/stacer'
+DESCRIPTION["stacer"]='Linux System Optimizer and Monitoring'
+##################################################################
 
 #list of packages 
 not_graghical_packages=(image-magick go nvim glow ffmpeg hyperfine bat)
@@ -654,12 +657,12 @@ get_version()
 	then
 		printf "${BLUE}there is un update, and you can update using:\n\tone --update"
 	fi
-	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.2${RESET}\n"
+	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.3${RESET}\n"
 }
 
 check_for_update()
 {
-	program_version="v0.0.2"
+	program_version="v0.0.3"
 	current_version=$(curl https://raw.githubusercontent.com/sacrhamza/one/main/.version 2> /dev/null)
 
 	if [[ "$program_version" != "$current_version" ]]
