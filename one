@@ -657,12 +657,12 @@ get_version()
 	then
 		printf "${BLUE}there is un update, and you can update using:\n\tone --update"
 	fi
-	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.3${RESET}\n"
+	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.4${RESET}\n"
 }
 
 check_for_update()
 {
-	program_version="v0.0.3"
+	program_version="v0.0.4"
 	current_version=$(curl https://raw.githubusercontent.com/sacrhamza/one/main/.version 2> /dev/null)
 
 	if [[ "$program_version" != "$current_version" ]]
