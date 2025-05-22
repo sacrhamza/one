@@ -247,7 +247,7 @@ get_icon()
 			echo $i
 		fi
 	done)
-	icon_file=($(echo "${icon_list}" | grep "$1.png\$" ||  echo "${icon_list}" | grep 512 || echo "${icon_list}" | grep 256 || echo "${icon_list}" | grep 128 || echo "${icon_list}" | grep "$1.svg\$" || echo "${icon_list}"))
+	icon_file=($(echo "${icon_list}" | grep 512 || echo "${icon_list}" | grep 256 || echo "${icon_list}" | grep 128 || echo "${icon_list}" | grep "$1.svg\$" || echo "${icon_list}"))
 
 	echo "${icon_file}"
 }
