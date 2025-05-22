@@ -12,7 +12,7 @@ APP_URL["ghostty"]='https://github.com/mkasberg/ghostty-ubuntu/releases/download
 APP_URL["firefox"]="https://download-installer.cdn.mozilla.net/pub/firefox/releases/134.0.2/linux-x86_64/en-US/firefox-134.0.2.tar.bz2"
 APP_URL["google-chrome"]="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 APP_URL["chromium"]="https://download-chromium.appspot.com/dl/Linux_x64?type=snapshots"
-APP_URL["tor"]="https://dist.torproject.org/torbrowser/14.0.7/tor-browser-linux-x86_64-14.0.7.tar.xz"
+APP_URL["tor"]="https://dist.torproject.org/torbrowser/14.5.2/tor-browser-linux-x86_64-14.5.2.tar.xz"
 APP_URL["opera"]="https://download.opera.com/download/get/?partner=www&opsys=Linux"
 APP_URL["edge"]="https://go.microsoft.com/fwlink?linkid=2149051&brand=M102"
 APP_URL["vivaldi"]="https://downloads.vivaldi.com/stable/vivaldi-stable_7.0.3495.29-1_amd64.deb"
@@ -657,12 +657,12 @@ get_version()
 	then
 		printf "${BLUE}there is un update, and you can update using:\n\tone --update"
 	fi
-	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.4${RESET}\n"
+	printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.5${RESET}\n"
 }
 
 check_for_update()
 {
-	program_version="v0.0.4"
+	program_version="v0.0.5"
 	current_version=$(curl https://raw.githubusercontent.com/sacrhamza/one/main/.version 2> /dev/null)
 
 	if [[ "$program_version" != "$current_version" ]]
