@@ -1,5 +1,8 @@
 declare -A APP_URL EXEC_FILE DESCRIPTION
 
+#list of packages 
+not_graghical_packages=(image-magick go nvim glow ffmpeg hyperfine bat)
+
 APP_URL["floorp"]='https://github.com/Floorp-Projects/Floorp/releases/download/v11.22.0/floorp-11.22.0.linux-x86_64.tar.bz2'
 EXEC_FILE["floorp"]='floorp-bin'
 DESCRIPTION["floorp"]='A privacy-focused web browser, built on Firefox, with additional security features.'
@@ -287,3 +290,4 @@ DESCRIPTION["freetube"]='FreeTube is free to download thanks to its open source 
 APP_URL["element"]='https://packages.element.io/desktop/install/linux/glibc-x86-64/element-desktop.tar.gz'
 EXEC_FILE["element"]='element-desktop'
 DESCRIPTION["element"]='A sovereign and secure communications platform. Built by the creators of Matrix.'
+
