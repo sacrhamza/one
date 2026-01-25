@@ -1,6 +1,4 @@
-declare -A APP_URL
-declare -A DESCRIPTION 
-declare -A EXEC_FILE
+declare -A APP_URL EXEC_FILE DESCRIPTION
 
 APP_URL["floorp"]='https://github.com/Floorp-Projects/Floorp/releases/download/v11.22.0/floorp-11.22.0.linux-x86_64.tar.bz2'
 EXEC_FILE["floorp"]='floorp-bin'
@@ -54,7 +52,7 @@ APP_URL["seamonkey"]='https://archive.seamonkey-project.org/releases/2.53.20/lin
 EXEC_FILE["seamonkey"]='seamonkey-bin'
 DESCRIPTION["seamonkey"]='A web browser suite with an email client, web development tools, and more.'
 
-APP_URL["firefox"]='https://download-installer.cdn.mozilla.net/pub/firefox/releases/138.0.1/linux-x86_64/en-US/firefox-138.0.1.tar.xz'
+APP_URL["firefox"]='https://download-installer.cdn.mozilla.net/pub/firefox/releases/134.0.2/linux-x86_64/en-US/firefox-134.0.2.tar.bz2'
 EXEC_FILE["firefox"]='firefox-bin'
 DESCRIPTION["firefox"]='A popular open-source web browser known for privacy, speed, and extensibility.'
 
@@ -206,7 +204,7 @@ APP_URL["clion"]='https://download.jetbrains.com/cpp/CLion-2024.3.2.tar.gz'
 EXEC_FILE["clion"]='bin/clion'
 DESCRIPTION["clion"]='A C and C++ IDE developed by JetBrains with intelligent code assistance and debugging features.'
 
-APP_URL["brave"]='https://github.com/brave/brave-browser/releases/download/v1.78.97/brave-browser_1.78.97_amd64.deb'
+APP_URL["brave"]='https://github.com/brave/brave-browser/releases/download/v1.76.80/brave-browser_1.76.80_amd64.deb'
 EXEC_FILE["brave"]='opt/brave.com/brave/brave'
 DESCRIPTION["brave"]='A privacy-focused browser that blocks ads and trackers by default.'
 
@@ -230,7 +228,7 @@ APP_URL["image-magick"]='https://imagemagick.org/archive/binaries/magick'
 EXEC_FILE["image-magick"]='AppRun'
 DESCRIPTION["image-magick"]='A powerful tool for creating, editing, and converting bitmap images.'
 
-APP_URL["go"]='https://go.dev/dl/go1.25.1.linux-amd64.tar.gz'
+APP_URL["go"]='https://go.dev/dl/go1.23.5.linux-amd64.tar.gz'
 EXEC_FILE["go"]='bin/go'
 DESCRIPTION["go"]='A programming language developed by Google, known for simplicity, speed, and concurrency support.'
 
@@ -289,32 +287,3 @@ DESCRIPTION["freetube"]='FreeTube is free to download thanks to its open source 
 APP_URL["element"]='https://packages.element.io/desktop/install/linux/glibc-x86-64/element-desktop.tar.gz'
 EXEC_FILE["element"]='element-desktop'
 DESCRIPTION["element"]='A sovereign and secure communications platform. Built by the creators of Matrix.'
-
-APP_URL["rio"]='https://github.com/raphamorim/rio/releases/download/v0.2.15/rioterm_0.2.15_amd64_x11.deb'
-EXEC_FILE["rio"]='usr/bin/rio'
-DESCRIPTION["rio"]='A modern terminal for the 21st century.'
-
-APP_URL["c3c"]='https://github.com/c3lang/c3c/releases/download/latest-prerelease/c3-linux.tar.gz'
-EXEC_FILE["c3c"]='c3c'
-DESCRIPTION["c3c"]='C3 is an evolution of C and a minimalist systems programming language.'
-
-APP_URL["fastfetch"]='https://github.com/fastfetch-cli/fastfetch/releases/download/2.42.0/fastfetch-linux-amd64.deb'
-EXEC_FILE["fastfetch"]='usr/bin/fastfetch'
-DESCRIPTION["fastfetch"]='Fastfetch is a neofetch-like tool for fetching system information and displaying it in a visually appealing way.'
-
-
-APP_URL["natron"]='https://github.com/NatronGitHub/Natron/releases/download/v2.5.0/Natron-2.5.0-Linux-x86_64-no-installer.tar.xz'
-EXEC_FILE["natron"]='Natron'
-DESCRIPTION["natron"]='Open Source Compositing Software For VFX and Motion Graphics.'
-
-APP_URL["openshot"]='https://github.com/OpenShot/openshot-qt/releases/download/v3.3.0/OpenShot-v3.3.0-x86_64.AppImage'
-EXEC_FILE["openshot"]='AppRun'
-DESCRIPTION["openshot"]='OpenShot Video Editor is available for download on Linux, OS X, and Windows.'
-
-APP_URL["stacer"]='https://github.com/oguzhaninan/Stacer/releases/download/v1.1.0/stacer_1.1.0_amd64.deb'
-EXEC_FILE["stacer"]='usr/share/stacer/AppRun'
-DESCRIPTION["stacer"]='Linux System Optimizer and Monitoring'
-
-APP_URL["swift"]='https://download.swift.org/swift-6.1-release/ubuntu2204/swift-6.1-RELEASE/swift-6.1-RELEASE-ubuntu22.04.tar.gz'
-EXEC_FILE["swift"]='usr/bin/swift'
-DESCRIPTION["swift"]='Swift is a general-purpose programming language that’s approachable for newcomers and powerful for experts.'
