@@ -1,16 +1,6 @@
-download()
+get_format()
 {
-	echo "download $1"
-	local app_name="$1"
-	if [[ -d "${CWD}/${app_name}" ]]
-	then
-		printf "\n${BLUE}$i ${RED}is installed\n${RESET}\n"
-		return 0
-	fi
-	mkdir "${CWD}/TMP"
-	local format
-	local place="${TEMP_DIR}/${app_name}"
-	wget -O "${TEMP_DIR}/${app_name}" ${APP_URL[$1]}
+	local place="$1"
 	if [[ -n $(file "${place}" | grep Debian) ]]
 	then
 		format='deb'
@@ -35,6 +25,23 @@ download()
 		printf "${RED}unknown format $(file ${place})\n"
 		exit 1
 	fi
+	printf "$format"
+}
+
+download()
+{
+	local format
+	echo "download $1"
+	local app_name="$1"
+	if [[ -d "${CWD}/${app_name}" ]]
+	then
+		printf "\n${BLUE}$i ${RED}is installed\n${RESET}\n"
+		return 0
+	fi
+	mkdir "${CWD}/TMP"
+	local place="${TEMP_DIR}/${app_name}"
+	wget -O "${TEMP_DIR}/${app_name}" ${APP_URL[$1]}
+	format=$(get_format "$place")
 	mv "${TEMP_DIR}/${1}" "${TEMP_DIR}/${1}.${format}"	
 	case $format in
 		'deb')
