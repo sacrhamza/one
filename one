@@ -1,7 +1,14 @@
 #!/bin/bash
 
-#list of packages 
-not_graghical_packages=(image-magick go nvim glow ffmpeg hyperfine bat)
+# database
+source <(curl https://raw.githubusercontent.com/sacrhamza/one/database/database.sh)
+
+source ./desktop.sh
+source ./download.sh
+source ./remove.sh
+source ./man.sh
+source ./help.sh
+source ./search.sh
 
 TRUE=1
 FALSE=0
@@ -26,48 +33,6 @@ BIN_DIR="${HOME}/.local/bin"
 
 ONE_DIR=$(dirname $0)
 
-
-remove_dir()
-{
-	if [ -d $1 ]
-	then
-		rm -rfv $1
-	fi
-}
-
-remove_file()
-{
-	if [ -e "$1" ]
-	then
-		rm -rfv "$1"
-	fi
-}
-
-delete_package()
-{	
-	if [[ ! -d "${CWD}/${1}" ]]
-	then
-		printf "\n${RED}${1} is not installed\n${RESET}but you can install it using: ${GREEN}one -i ${1}${RESET}\n"
-		return 0
-	fi
-	if [[ -z $2 ]]
-	then
-		read -p "are you sure you want to remove $1 [y/n]: " answer
-	else
-		answer=yes
-	fi
-	if [[ "${answer,,}" == @(yes|y) ]]
-	then
-		remove_file "${BIN_DIR}/$1"
-		remove_dir "${CWD}/$1"
-		remove_dir "${HOME}/.config/$1"
-		remove_dir "${HOME}/.cache/$1"
-		remove_dir "${HOME}/.${1}"
-		remove_file "${DESKTOP_FILE_DIR}/$1.desktop"
-		remove_file "${ICON_DIR}/$1.png"
-		zenity --notification --window-icon="info" --text="$i is removed" --title="one"
-	fi
-}
 
 check_package()
 {
@@ -168,9 +133,9 @@ handle_action()
 {
 	if [[ -d "${CWD}/$1" ]]
 	then
-		delete_package $1 -y
+		remove_package $1 -y
 	else
-		download_package $1
+		download $1
 	fi
 }
 
@@ -433,12 +398,12 @@ for i in ${valid_packages[@]}
 do
 	if [[ "$action" == 'download' ]]
 	then
-		download_package "$i"	
+		download "$i"	
 		zenity --notification --window-icon="info" --text="$i is installed" --title="one"
 		printf "$i"
 	elif [[ "$action" == 'delete' ]]
 	then
-		delete_package "$i"
+		remove_package "$i"
 	elif [[ "$action" == 'search' ]]
 	then
 		search_package "$i"

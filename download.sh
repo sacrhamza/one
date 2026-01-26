@@ -1,5 +1,6 @@
-download_package()
+download()
 {
+	echo "download $1"
 	local app_name="$1"
 	if [[ -d "${CWD}/${app_name}" ]]
 	then

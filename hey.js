@@ -1,0 +1,2 @@
+brave=('url')
+firefox=('url')
