@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # database
-source <(curl https://raw.githubusercontent.com/sacrhamza/one/database/database.sh)
+source <(curl https://raw.githubusercontent.com/sacrhamza/one/database/database.sh 2> /dev/null)
 
 source ./desktop.sh
 source ./download.sh
@@ -399,8 +399,7 @@ do
 	if [[ "$action" == 'download' ]]
 	then
 		download "$i"	
-		zenity --notification --window-icon="info" --text="$i is installed" --title="one"
-		printf "$i"
+		# zenity --notification --window-icon="info" --text="$i is installed" --title="one"
 	elif [[ "$action" == 'delete' ]]
 	then
 		remove_package "$i"

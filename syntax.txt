@@ -1,0 +1,2 @@
+package: pakcage installed from source
+app: app

@@ -1,80 +1,91 @@
 get_format()
 {
+  local format
 	local place="$1"
-	if [[ -n $(file "${place}" | grep Debian) ]]
-	then
-		format='deb'
-	elif [[ -n $(file "${place}" | grep XZ) ]]
-	then
-		format='tar.xz'
-	elif [[ -n $(file "${place}" | grep bzip2) ]]
-	then
-		format='tar.bz2'
-	elif [[ -n $(file "${place}" | grep gzip) ]]
-	then
-		format='gzip'
-	elif [[ -n $(file "${place}" | grep Zip) ]]
-	then
-		format='zip'
-	elif [[ -n $(file "${place}" | grep ELF) ]]
-	then
-		format='elf'
-	else
+
+  { [[ -n $(file "${place}" | grep Debian) ]] && format='deb'; } ||
+  { [[ -n $(file "${place}" | grep XZ) ]] && format='tar.xz'; } ||
+  { [[ -n $(file "${place}" | grep bzip2) ]] && format='tar.bz2'; } ||
+  { [[ -n $(file "${place}" | grep gzip) ]] && format='gzip'; } ||
+  { [[ -n $(file "${place}" | grep Zip) ]] && format='zip'; } ||
+  { [[ -n $(file "${place}" | grep ELF) ]] && format='elf'; } ||
+  {
 		rm -rf "${place}"
 		rm -rf "${CWD}/TMP"
 		printf "${RED}unknown format $(file ${place})\n"
 		exit 1
-	fi
+  }
 	printf "$format"
 }
 
-download()
+run_and_print()
 {
-	local format
-	echo "download $1"
-	local app_name="$1"
-	if [[ -d "${CWD}/${app_name}" ]]
-	then
-		printf "\n${BLUE}$i ${RED}is installed\n${RESET}\n"
-		return 0
-	fi
-	mkdir "${CWD}/TMP"
-	local place="${TEMP_DIR}/${app_name}"
-	wget -O "${TEMP_DIR}/${app_name}" ${APP_URL[$1]}
-	format=$(get_format "$place")
-	mv "${TEMP_DIR}/${1}" "${TEMP_DIR}/${1}.${format}"	
-	case $format in
+  echo "$@"
+  "$@"
+}
+
+download_pkg()
+{
+  local pkg_name="$1"
+  local pkg_file="$2"
+  local pkg_format="$3"
+  local app_name="${TEMP_DIR}/${pkg_name}"
+
+  printf "${GREEN}[unpackage] ${RESET}\t${pkg_file}${RESET}\n"
+  printf "${GREEN}[run] ${RESET}\t"
+
+	case "$pkg_format" in
 		'deb')
-			dpkg -x "${TEMP_DIR}/${app_name}.deb" "${CWD}/TMP/${app_name}"
-			;;
+      run_and_print dpkg -x "$pkg_file" "${app_name}" ;;
 		'tar.xz' | 'tar.bz2' | 'gzip')
-			tar -xf "${TEMP_DIR}/${app_name}.${format}" --directory="$CWD/TMP"
-;;
+			run_and_print tar -xf "$pkg_file" --directory="${TEMP_DIR}" ;;
 		'zip')
-			unzip "${TEMP_DIR}/${app_name}.zip" -d "${CWD}/TMP"
-			;;
+			run_and_print unzip "$pkg_file" -d "${TEMP_DIR}" ;;
 		'elf')
 			chmod +x "${TEMP_DIR}/${app_name}.elf"  
 			cd ${TEMP_DIR} && ${TEMP_DIR}/${app_name}.elf --appimage-extract && cd -
-			mv "${TEMP_DIR}/squashfs-root" "${CWD}/TMP/${app_name}"
-			;;
-		*);;
+			mv "${TEMP_DIR}/squashfs-root" "${CWD}/TMP/${app_name}" ;;
+		*) ;;
 	esac
-	mv "${CWD}"/TMP/* "${CWD}/${app_name}"
-	rm -r "${CWD}/TMP/"
-	rm -rf "${TEMP_DIR}/${app_name}.${format}"
-	if [[ ! -d "${BIN_DIR}" ]]
-	then
-		mkdir "${BIN_DIR}"
-	fi
-	ln -s "${CWD}/$1/${EXEC_FILE[$1]}" "${BIN_DIR}/${1}"
-	local i
-	for i in "${not_graghical_packages[@]}"
-	do
-		if [[ ${1} == $i ]]
-		then
-			return
-		fi
-	done
-	create_desktop_file $1
+}
+
+
+download()
+{
+	local pkg_name="$1"
+
+  local pkg_file="${TEMP_DIR}/${pkg_name}"
+
+  printf "${GREEN}app_url${RESET}: ${APP_URL[$pkg_name]}\n"
+
+	wget -O "$pkg_file" "${APP_URL[$pkg_name]}" -q --show-progress
+
+	local pkg_format=$(get_format "$pkg_file")
+
+  mv "${pkg_file}"  "${pkg_file}.${pkg_format}"
+
+  pkg_file+=".${pkg_format}"
+
+  printf "${GREEN}app format: ${RESET} ${pkg_format}\n"
+
+  download_pkg "$pkg_name" "$pkg_file" "$pkg_format" 
+
+  rm -rf "$pkg_file"
+
+	# if [[ ! -d "${BIN_DIR}" ]]
+	# then
+	# 	mkdir "${BIN_DIR}"
+	# fi
+
+	# ln -s "${CWD}/$1/${EXEC_FILE[$1]}" "${BIN_DIR}/${1}"
+	# local i
+	# for i in "${not_graghical_packages[@]}"
+	# do
+	# 	if [[ ${1} == $i ]]
+	# 	then
+	# 		return
+	# 	fi
+	# done
+
+	# create_desktop_file "$pkg_name"
 }
