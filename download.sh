@@ -42,13 +42,12 @@ download_pkg()
 		'zip')
 			run_and_print unzip "$pkg_file" -d "${TEMP_DIR}" ;;
 		'elf')
-			chmod +x "${TEMP_DIR}/${app_name}.elf"  
+			chmod +x "${pkg_file}"  
 			cd ${TEMP_DIR} && ${TEMP_DIR}/${app_name}.elf --appimage-extract && cd -
 			mv "${TEMP_DIR}/squashfs-root" "${CWD}/TMP/${app_name}" ;;
 		*) ;;
 	esac
 }
-
 
 download()
 {
@@ -70,6 +69,7 @@ download()
 
   download_pkg "$pkg_name" "$pkg_file" "$pkg_format" 
 
+  printf "removing package file ${pkg_file}\n"
   rm -rf "$pkg_file"
 
 	# if [[ ! -d "${BIN_DIR}" ]]
@@ -87,5 +87,5 @@ download()
 	# 	fi
 	# done
 
-	# create_desktop_file "$pkg_name"
+	create_desktop_file "$pkg_name"
 }
