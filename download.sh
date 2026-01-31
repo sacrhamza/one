@@ -2,21 +2,23 @@ get_format()
 {
   local format
 	local place="$1"
-  local output_format=$(file "${place}")
+  local output_format
 
-  { [[ -n $(printf "$output_format" | grep Debian) ]] && format='deb'; } ||
-  { [[ -n $(printf "$output_format" | grep XZ) ]] && format='tar.xz'; } ||
-  { [[ -n $(printf "$output_format" | grep bzip2) ]] && format='tar.bz2'; } ||
-  { [[ -n $(printf "$output_format" | grep gzip) ]] && format='gzip'; } ||
-  { [[ -n $(printf "$output_format" | grep Zip) ]] && format='zip'; } ||
-  { [[ -n $(printf "$output_format" | grep ELF) ]] && format='elf'; } ||
-  {
+	output_format=$(file "${place}")
+
+  if echo -n "$output_format" | grep -q Debian; then format='deb';
+  elif echo -n "$output_format" | grep -q XZ; then format='tar.xz';
+  elif echo -n "$output_format" | grep -q bzip2; then format='tar.bz2'
+  elif echo -n "$output_format" | grep -q gzip; then format='gzip';
+  elif echo -n "$output_format" | grep -q Zip;then format='zip';
+  elif echo -n "$output_format" | grep -q ELF; then format='elf';
+	else
 		rm -rf "${place}"
 		rm -rf "${CWD}/TMP"
-		printf "${RED}unknown format $(file ${place})\n"
+		printf "${RED}unknown format %s\n" "${output_format}"
 		exit 1
-  }
-	printf "$format"
+	fi
+	printf "%s" "$format"
 }
 
 run_spinner()
@@ -32,7 +34,7 @@ run_spinner()
   do
    for i in "${spinstr[@]}"
    do 
-     printf "${i}\b";
+     echo -en "${i}\b";
      sleep 0.2
    done
   done
@@ -51,7 +53,7 @@ download_pkg()
   local pkg_format="$3"
   local app_name="${TEMP_DIR}/${pkg_name}"
 
-  printf "${GREEN}[unpackage] ${RESET}\t${pkg_file}${RESET}\n"
+  printf "${GREEN}[unpackage] ${RESET}\t%s\n" "${pkg_file}"
   printf "${GREEN}[run] ${RESET}\t"
 
 	case "$pkg_format" in
@@ -123,7 +125,7 @@ download()
 
 	for i in "${not_graghical_packages[@]}"
 	do
-		if [[ ${1} == $i ]]
+		if [[ "${1}" == "$i" ]]
 		then
 			return
 		fi
