@@ -10,6 +10,7 @@ source ./man.sh
 source ./help.sh
 source ./search.sh
 source ./setup.sh
+source ./version.sh
 
 TRUE=1
 FALSE=0
@@ -34,6 +35,8 @@ BIN_DIR="${HOME}/.local/bin"
 
 ONE_DIR=$(dirname "$0")
 
+PROGRAM_VERSION="v0.0.6"
+
 
 check_package()
 {
@@ -44,7 +47,6 @@ check_package()
 		echo $FALSE
 	fi 
 }
-
 
 #this function is used to display an error message because an option is not valid
 display_error_message()
@@ -218,28 +220,6 @@ setup()
 	fi
 }
 
-get_version()
-{
-	if check_for_update;
-	then
-		printf "${BLUE}there is un update"
-	fi
-	# printf "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.5${RESET}\n"
-}
-
-check_for_update()
-{
-	program_version="v0.0.6"
-	current_version=$(curl https://raw.githubusercontent.com/sacrhamza/one/main/.version 2> /dev/null)
-
-	if [[ "$program_version" != "$current_version" ]]
-	then
-		true
-	else
-		false
-	fi
-}
-
 remove_self()
 {
 	remove_file "$BIN_DIR/one"
@@ -247,8 +227,6 @@ remove_self()
 	remove_file "$ICON_DIR/oneperson.png"
 	remove_file "${HOME}/.local/share/man/man1/one.1"
 }
-
-
 
 take_action()
 {
