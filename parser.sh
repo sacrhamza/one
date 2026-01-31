@@ -1,63 +1,76 @@
 #!/bin/bash
 
 declare -A operation=(
-	['download']='download_package'
-	['remove']='download_package'
-	['version']='get_version'
-	['search']='search'
-	['help']='display_help_message'
-	['list']='list'
+  ['download']='download'
+  ['remove']='remove_package'
+  ['version']='get_version'
+  ['search']='search'
+  ['help']='display_help_message'
+  ['list']='list'
+  ['undefined']='undefined'
 )
-download_package()
+
+download_packages()
 {
-	echo somethign
+  declare -a pkgs_to_install
+  
+    for pkg in "$@"
+    do
+      if check_pkg_exist "$pkg"
+      then
+        pkgs_to_install+=("$pkg")
+      fi
+    done
+
+    for pkg in "${pkgs_to_install[@]}"
+    do
+      download "$pkg"
+    done
 }
 
-take_action()
+get_action()
 {
-	option="$1"
+  option="$1"
 
-	case "${option}" in
-		list | '--list' | '-l')
-			printf 'list' ;;
-		all | '--all' | '-a')
-			echo all ;;
-		graphic | '--graphic' | '-G')
-			echo graphic ;;
-		init | '--init' | '-I')
-			echo init ;;
-		version | '--version' | '-v')
-			echo version ;;
-		update | '--update' | '-U')
-			echo update ;;
-		help | '--help' | '-h')
-			# display_help_message
-			# return 2
-		;;
-		install | '--install' | '-i')
-			echo download ;;
-		remove | '--remove' | '-r')
-			echo delete ;;
-		search | '--search' | '-s')
-			echo search ;;
-		*)
-		;;
-	esac
+  case "${option}" in
+    list | '--list' | '-l')
+      printf 'list' ;;
+    all | '--all' | '-a')
+      echo all ;;
+    graphic | '--graphic' | '-G')
+      echo graphic ;;
+    init | '--init' | '-I')
+      echo init ;;
+    version | '--version' | '-v')
+      echo version ;;
+    update | '--update' | '-U')
+      echo update ;;
+    help | '--help' | '-h')
+      # display_help_message
+      # return 2
+      ;;
+    install | '--install' | '-i')
+      echo download ;;
+    remove | '--remove' | '-r')
+      echo remove;;
+    search | '--search' | '-s')
+      echo search ;;
+    *) echo 'undefined'
+      ;;
+  esac
 }
 
 main()
 {
-	if [[ "$#" -lt 1 ]]
-	then
-		printf hey
-		exit 0
-	fi
-	action=$(take_action "$1")
-	"${operation[${action}]}"
-	# for args in "$@"		
-	# do 
-	# 	printf "%s\n" "$args"
-	# done
+  if [[ "$#" -lt 1 ]]
+  then
+    printf hey
+    exit 0
+  fi
+  action=$(get_action "$1")
+  echo "$action"
+  echo "${operation[${action}]}"
+download_packages 'brave' 'something'
 }
 
 main "$@"

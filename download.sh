@@ -38,6 +38,7 @@ run_spinner()
      sleep 0.2
    done
   done
+ printf '\b\n' 
 }
 
 run_and_print()
@@ -53,8 +54,8 @@ download_pkg()
   local pkg_format="$3"
   local app_name="${TEMP_DIR}/${pkg_name}"
 
-  printf "${GREEN}[unpackage] ${RESET}\t%s\n" "${pkg_file}"
-  printf "${GREEN}[run] ${RESET}\t"
+  echo -e "${GREEN}[unpackage] ${RESET}\t${pkg_file}"
+  echo -ne "${GREEN}[run] ${RESET}\t"
 
 	case "$pkg_format" in
 		'deb')
@@ -81,7 +82,7 @@ create_app_symlink()
 
 log_output()
 {
-  printf "${GREEN}[$1]${RESET} $2\n"
+  echo -e "${GREEN}[$1]${RESET} $2"
 }
 
 save_app_data()
@@ -90,20 +91,21 @@ save_app_data()
   echo "${pkg_name} ${CWD} ${APP_URL[${pkg_name}]}"
 }
 
-
-
 download()
 {
   local_setup
+
+  local pkg_format
 	local pkg_name="$1"
 
   local pkg_file="${TEMP_DIR}/${pkg_name}"
 
   echo -e "${GREEN}app_url${RESET}: ${APP_URL[$pkg_name]}"
+  echo -e "download $pkg_name from its source"
 
 	wget -O "$pkg_file" "${APP_URL[$pkg_name]}" -q --show-progress
 
-	local pkg_format=$(get_format "$pkg_file")
+	pkg_format=$(get_format "$pkg_file")
 
   mv "${pkg_file}"  "${pkg_file}.${pkg_format}"
 
@@ -116,11 +118,10 @@ download()
   log_output "remove" "package file ${pkg_file}"
 
   rm -rf "$pkg_file"
-  # rm -rf "/tmp/$pkg_name"
-
   create_app_symlink "${pkg_name}"
 
   mv "${TEMP_DIR}/${pkg_name}" "${CWD}/"
+  rm -rf "${TEMP_DIR:?}/${pkg_name}"
 
 	local i
 
