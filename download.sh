@@ -94,11 +94,12 @@ save_app_data()
 
 download()
 {
+  local_setup
 	local pkg_name="$1"
 
   local pkg_file="${TEMP_DIR}/${pkg_name}"
 
-  printf "${GREEN}app_url${RESET}: ${APP_URL[$pkg_name]}\n"
+  echo -e "${GREEN}app_url${RESET}: ${APP_URL[$pkg_name]}"
 
 	wget -O "$pkg_file" "${APP_URL[$pkg_name]}" -q --show-progress
 
@@ -108,7 +109,7 @@ download()
 
   pkg_file+=".${pkg_format}"
 
-  printf "${GREEN}app format: ${RESET} ${pkg_format}\n"
+  echo -e "${GREEN}app format: ${RESET} ${pkg_format}"
 
   download_pkg "$pkg_name" "$pkg_file" "$pkg_format" 
 
@@ -119,7 +120,7 @@ download()
 
   create_app_symlink "${pkg_name}"
 
-  mv "/${TEMP_DIR}/${pkg_name}" "${CWD}/"
+  mv "${TEMP_DIR}/${pkg_name}" "${CWD}/"
 
 	local i
 

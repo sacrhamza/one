@@ -9,6 +9,7 @@ source ./remove.sh
 source ./man.sh
 source ./help.sh
 source ./search.sh
+source ./setup.sh
 
 TRUE=1
 FALSE=0
@@ -31,7 +32,7 @@ ICON_DIR="${HOME}/.local/share/icons"
 
 BIN_DIR="${HOME}/.local/bin"
 
-ONE_DIR=$(dirname $0)
+ONE_DIR=$(dirname "$0")
 
 
 check_package()
