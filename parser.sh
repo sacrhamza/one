@@ -1,7 +1,7 @@
 #!/bin/bash
 
 declare -A operation=(
-  ['download']='download'
+  ['download']='download_packages'
   ['remove']='remove_package'
   ['version']='get_version'
   ['search']='search'
@@ -12,19 +12,21 @@ declare -A operation=(
 
 download_packages()
 {
-  declare -a pkgs_to_install
-  
-    for pkg in "$@"
-    do
-      if check_pkg_exist "$pkg"
-      then
-        pkgs_to_install+=("$pkg")
-      fi
-    done
+  # declare -a pkgs_to_install
+  #
+  #   for pkg in "$@"
+  #   do
+  #     if check_pkg_exist "$pkg"
+  #     then
+  #       pkgs_to_install+=("$pkg")
+  #     fi
+  #   done
 
+  pkgs_to_install=("$@")
     for pkg in "${pkgs_to_install[@]}"
     do
-      download "$pkg"
+      # download "$pkg"
+      echo "$pkg"
     done
 }
 
@@ -62,15 +64,14 @@ get_action()
 
 main()
 {
+  args=("$@")
   if [[ "$#" -lt 1 ]]
   then
     printf hey
     exit 0
   fi
   action=$(get_action "$1")
-  echo "$action"
-  echo "${operation[${action}]}"
-download_packages 'brave' 'something'
+  "${operation[${action}]}" "${args[@]:1:$#}"
 }
 
 main "$@"

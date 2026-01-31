@@ -98,7 +98,6 @@ check_valid_arguments()
 	done
 }
 
-
 zenity_app()
 {
 		declare -a installed_app removed_app

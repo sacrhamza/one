@@ -1,11 +1,0 @@
---2026-01-30 18:14:10--  https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-Resolving dl.google.com (dl.google.com)... 142.251.30.93, 142.251.30.190, 142.251.30.91, ...
-Connecting to dl.google.com (dl.google.com)|142.251.30.93|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 118801336 (113M) [application/x-debian-package]
-Saving to: ‘google-chrome-stable_current_amd64.deb’
-
-google-chrome-stable_current_amd64.deb                  0%[                                                                                                                       ]       0  --.-KB/s               google-chrome-stable_current_amd64.deb                 59%[=====================================================================>                                                 ]  67.44M   337MB/s               google-chrome-stable_current_amd64.deb                100%[======================================================================================================================>] 113.30M   342MB/s    in 0.3s    
-
-2026-01-30 18:14:10 (342 MB/s) - ‘google-chrome-stable_current_amd64.deb’ saved [118801336/118801336]
-

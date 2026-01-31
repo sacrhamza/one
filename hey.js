@@ -1,2 +1,0 @@
-brave=('url')
-firefox=('url')
