@@ -5,7 +5,7 @@ get_version()
 	then
 		echo -e "${BLUE}there is un update you can update one using: one --update-self"
   else
-	echo -e "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.5${RESET}"
+	  echo -e "${BLUE}oneperson tool: ${GREEN_BOLD}v0.0.5${RESET}"
 	fi
 }
 

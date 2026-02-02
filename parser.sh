@@ -1,4 +1,5 @@
 #!/bin/bash
+source ./hey.sh
 
 declare -A operation=(
   ['download']='download_packages'
@@ -10,24 +11,44 @@ declare -A operation=(
   ['undefined']='undefined'
 )
 
+check_pkg_exist()
+{
+  local pkg_name="$1"
+
+  if [[ -n "${APP_URL[${pkg_name}]}" ]]
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+pkg_installed()
+{
+  local pkg_name
+
+  pkg_name="$1"
+  return 0
+}
+
 download_packages()
 {
-  # declare -a pkgs_to_install
-  #
-  #   for pkg in "$@"
-  #   do
-  #     if check_pkg_exist "$pkg"
-  #     then
-  #       pkgs_to_install+=("$pkg")
-  #     fi
-  #   done
+  declare -a pkgs_to_install
 
-  pkgs_to_install=("$@")
-    for pkg in "${pkgs_to_install[@]}"
-    do
-      # download "$pkg"
-      echo "$pkg"
-    done
+  for pkg in "$@"
+  do
+    if check_pkg_exist "$pkg"
+    then
+      pkg_installed "$pkg" && pkgs_to_install+=("$pkg")
+    else
+      exit 44
+    fi
+  done
+
+  for pkg in "${pkgs_to_install[@]}"
+  do
+    echo "$pkg"
+  done
 }
 
 get_action()

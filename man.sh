@@ -2,7 +2,6 @@ create_man_page()
 {
 	if [[ ! -f "${HOME}/.local/share/man/man1/one.1" ]]
 	then
-		mkdir -p "${HOME}/.local/share/man/man1"
 		printf '.TH oneperson man 2025/04/23 oneperson manual
 .SH oneperson | one
 install packages from its sources
@@ -50,10 +49,6 @@ install brave-browser and vscode editor
 .B one remove brave code
 remove brave-browser and vscode editor
 .SH AUTHOR
-oneperson onerealperson@icloud.com' > "${HOME}/.local/share/man/man1/one.1"
-	echo 1
-	
-	else
-		echo 0
+oneperson onerealperson@icloud.com' > "${MAN_DIR}/one.1"
 	fi
 }

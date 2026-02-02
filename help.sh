@@ -1,6 +1,6 @@
 display_help_message()
 {
-	printf "${BLUE}oneaperson package tool:${RESET}  ${GREEN}one [OPTION] [PACKAGE?]
+	echo -e "${BLUE}oneaperson package tool:${RESET}  ${GREEN}one [OPTION] [PACKAGE?]
 \t${RESET}${GREEN}init, --init, -I${RESET}\tinstall oneperson package tool locally
 \t${RESET}${GREEN}install, --install, -i${RESET}\tinstall a package
 \t${GREEN}remove, --remove, -r${RESET}\tremove a package
@@ -10,6 +10,5 @@ display_help_message()
 \t${GREEN}all, --all, -a${RESET}\t\tlist all available packages to install
 \t${GREEN}version, --version, -v${RESET}\tdisplay oneperson package tool version
 \t${GREEN}help, --help, -h${RESET}\tdisplay this help message
-\t${GREEN}graphic, --graphic, -G${RESET}\tuse zenity to install/remove packages
-"
+\t${GREEN}graphic, --graphic, -G${RESET}\tuse zenity to install/remove packages"
 }

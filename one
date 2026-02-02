@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # database
 source <(curl https://raw.githubusercontent.com/sacrhamza/one/database/database.sh 2> /dev/null)
@@ -11,6 +11,7 @@ source ./help.sh
 source ./search.sh
 source ./setup.sh
 source ./version.sh
+source ./one_desktop.sh
 
 TRUE=1
 FALSE=0
@@ -34,6 +35,8 @@ ICON_DIR="${HOME}/.local/share/icons"
 BIN_DIR="${HOME}/.local/bin"
 
 ONE_DIR=$(dirname "$0")
+
+MAN_DIR="${HOME}/.local/share/man/man1"
 
 PROGRAM_VERSION="v0.0.6"
 
@@ -91,7 +94,7 @@ check_valid_arguments()
 	local i
 	for i in ${valid_arguments[$1]}
 	do
-		if [[ $2 == $i ]]
+		if [[ $2 == "$i" ]]
 		then
 			echo 1
 		fi	
@@ -102,7 +105,7 @@ zenity_app()
 {
 		declare -a installed_app removed_app
 		declare -i remove_count=0 install_count=0
-		count=0
+
 		for i in ${!APP_URL[@]}
 		do
 			if [[ -d "${CWD}/$i" ]]
@@ -141,7 +144,6 @@ handle_action()
 	fi
 }
 
-
 handle_path()
 {
 	local paths=($(echo $PATH | tr ':' ' '))
@@ -169,27 +171,6 @@ create_if_not_found()
 	fi
 }
 
-create_oneperson_desktop_file()
-{
-	if [[ ! -f "${ICON_DIR}/oneperson.png" || ! -f "${DESKTOP_FILE_DIR}/oneperson.desktop" ]]
-	then
-		#git clone https://github.com/sacrhamza/oneperson-icon.git /tmp/one
-		cp "${ONE_DIR}/oneperson.png"  "${ICON_DIR}"
-		#rm -rf /tmp/one
-		printf "[Desktop Entry]
-Name=One
-Comment=Oneperson package tool
-Exec=${BIN_DIR}/one -G
-Terminal=false
-Icon=oneperson
-Type=Application
-" > "${DESKTOP_FILE_DIR}/oneperson.desktop"
-	chmod +x "${DESKTOP_FILE_DIR}/oneperson.desktop" 
-	echo 1;
-	fi
-	echo 0;
-}
-
 setup()
 {
 	local variable
@@ -203,7 +184,7 @@ setup()
 	fi
 	let variable+=$(handle_path)
 	let variable+=$(create_man_page)
-	let variable+=$(create_oneperson_desktop_file)
+	let variable+=$(create_one_desktop_file)
 	if [[ $variable -eq 0 ]]
 	then
 		printf "\n${GREEN}everything up to date${RESET}\n"
@@ -226,6 +207,103 @@ remove_self()
 	remove_file "$ICON_DIR/oneperson.png"
 	remove_file "${HOME}/.local/share/man/man1/one.1"
 }
+
+# declare -A operation=(
+#   ['download']='download_packages'
+#   ['remove']='remove_package'
+#   ['version']='get_version'
+#   ['search']='search'
+#   ['help']='display_help_message'
+#   ['list']='list'
+#   ['undefined']='undefined'
+# )
+#
+# check_pkg_exist()
+# {
+#   local pkg_name="$1"
+#
+#   if [[ -n "${APP_URL[${pkg_name}]}" ]]
+#   then
+#     return 0
+#   else
+#     return 1
+#   fi
+# }
+#
+# pkg_installed()
+# {
+#   local pkg_name
+#
+#   pkg_name="$1"
+#   return 0
+# }
+#
+# download_packages()
+# {
+#   declare -a pkgs_to_install
+#
+#   for pkg in "$@"
+#   do
+#     if check_pkg_exist "$pkg"
+#     then
+#       pkg_installed "$pkg" && pkgs_to_install+=("$pkg")
+#     else
+#       exit 44
+#     fi
+#   done
+#
+#   for pkg in "${pkgs_to_install[@]}"
+#   do
+#     echo "$pkg"
+#     download "$pkg"
+#   done
+# }
+#
+# get_action()
+# {
+#   option="$1"
+#
+#   case "${option}" in
+#     list | '--list' | '-l')
+#       printf 'list' ;;
+#     all | '--all' | '-a')
+#       echo all ;;
+#     graphic | '--graphic' | '-G')
+#       echo graphic ;;
+#     init | '--init' | '-I')
+#       echo init ;;
+#     version | '--version' | '-v')
+#       echo version ;;
+#     update | '--update' | '-U')
+#       echo update ;;
+#     help | '--help' | '-h')
+#       # display_help_message
+#       # return 2
+#       ;;
+#     install | '--install' | '-i')
+#       echo download ;;
+#     remove | '--remove' | '-r')
+#       echo remove;;
+#     search | '--search' | '-s')
+#       echo search ;;
+#     *) echo 'undefined'
+#       ;;
+#   esac
+# }
+#
+# main()
+# {
+#   args=("$@")
+#   if [[ "$#" -lt 1 ]]
+#   then
+#     printf hey
+#     exit 0
+#   fi
+#   action=$(get_action "$1")
+#   "${operation[${action}]}" "${args[@]:1:$#}"
+# }
+#
+# main "$@"
 
 take_action()
 {
@@ -252,7 +330,7 @@ take_action()
 			zenity_app
 		elif [[ "${action}" == 'init' ]]
 		then
-			setup $2
+			setup "$2"
 			exit 0
 		elif [[ "${action}" == 'version' ]]
 		then
@@ -265,7 +343,6 @@ take_action()
 			display_help_message
 		fi
 }
-
 
 #this function is used to return one of these actions (list all help) if one of these is got (install[] remove[]) it will display the help message
 return_friendly_action()

@@ -9,5 +9,5 @@ create_dirs()
 local_setup()
 {
   create_dirs "$BIN_DIR" "$DESKTOP_FILE_DIR"\
-    "$ICON_DIR"
+    "$ICON_DIR" "$MAN_DIR"
 }
