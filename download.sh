@@ -61,9 +61,13 @@ download_pkg()
 		'deb')
       run_spinner run_and_print dpkg -x "$pkg_file" "${app_name}" ;;
 		'tar.xz' | 'tar.bz2' | 'gzip')
-			run_spinner run_and_print tar -xf "$pkg_file" --directory="${TEMP_DIR}" ;;
+			random_dir="${TEMP_DIR}/$RANDOM"
+			mkdir "$random_dir"
+			run_spinner run_and_print tar -xf "$pkg_file" --directory="$random_dir"
+			mv "$random_dir"/* "${TEMP_DIR}/$pkg_name"
+			rm -rf "$random_dir";;
 		'zip')
-			run_spinner run_and_print unzip "$pkg_file" -d "${TEMP_DIR}" ;;
+			run_spinner run_and_print unzip "$pkg_file" -d "${TEMP_DIR}/" ;;
 		'elf')
 			chmod +x "${pkg_file}"  
 			cd ${TEMP_DIR} && ${TEMP_DIR}/${app_name}.elf --appimage-extract && cd -
